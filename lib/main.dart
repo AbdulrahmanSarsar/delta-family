@@ -1136,63 +1136,127 @@ class _DynamicFormPageState extends State<DynamicFormPage> {
     try {
       final res = await http.get(Uri.parse(ApiConfig.FORM_SCHEMA_API.replaceAll('{id}', widget.formId.toString())), headers: ApiConfig.AUTH_HEADERS);
       if (res.statusCode == 200) {
-        setState(() { _schema = FormSchema.fromMobileJson(jsonDecode(res.body)); _loading = false; });
-      } else { throw 'Error'; }
-    } catch (e) { setState(() => _loading = false); }
+        setState(() {
+          _schema = FormSchema.fromMobileJson(jsonDecode(res.body));
+          _loading = false;
+        });
+      } else {
+        throw 'Error fetching schema';
+      }
+    } catch (e) {
+      setState(() => _loading = false);
+    }
   }
 
   bool _shouldShowField(FormFieldSchema field) {
-    if (field.conditionalLogic == null || field.conditionalLogic!['status'] != true) return true;
-    for (var group in field.conditionalLogic!['condition_groups'] ?? []) {
-      for (var rule in group['rules'] ?? []) {
-        if (_formData[rule['field']]?.toString() == rule['value']) return true;
+    if (field.conditionalLogic == null) return true;
+    try {
+      final conditions = field.conditionalLogic!['conditions'] as List? ?? [];
+      if (conditions.isEmpty) return true;
+
+      final type = field.conditionalLogic!['type'] ?? 'all';
+      bool result = type == 'all' ? true : false;
+
+      for (var condition in conditions) {
+        String targetField = condition['field']?.toString() ?? '';
+        String expectedValue = condition['value']?.toString() ?? '';
+        String actualValue = _getValue(targetField)?.toString() ?? '';
+
+        bool match = actualValue == expectedValue;
+        if (type == 'all') result = result && match;
+        else result = result || match;
       }
+      return result;
+    } catch (e) {
+      return true;
     }
-    return false;
   }
 
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
     _formKey.currentState!.save();
+
     setState(() => _loading = true);
     try {
-      final headers = Map<String, String>.from(ApiConfig.AUTH_HEADERS)..remove('Content-Type');
-      final res = await http.post(Uri.parse(ApiConfig.FORM_SUBMIT_API), headers: headers, body: {'form_id': widget.formId.toString(), 'data': jsonEncode(_formData)});
+      final headers = Map<String, String>.from(ApiConfig.AUTH_HEADERS);
+      headers['Content-Type'] = 'application/json';
+
+      final res = await http.post(
+          Uri.parse(ApiConfig.FORM_SUBMIT_API),
+          headers: headers,
+          body: jsonEncode({'form_id': widget.formId, 'data': _formData})
+      );
+
       if (res.statusCode == 200) {
         final d = jsonDecode(res.body);
-        if (d['status'] == false) throw d['message'];
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(d['message'] ?? 'Success')));
-        Navigator.pop(context);
-      } else { throw 'Failed'; }
+        if (d['status'] == false) throw d['message'] ?? 'Submission failed';
+
+        if(mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(d['message'] ?? 'Success!'), backgroundColor: Colors.green));
+          Navigator.pop(context);
+        }
+      } else {
+        throw 'Server Error 500: Submission rejected.';
+      }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
-    } finally { setState(() => _loading = false); }
+      if(mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e'), backgroundColor: Colors.red));
+    } finally {
+      if(mounted) setState(() => _loading = false);
+    }
   }
 
-  void _updateValue(String key, dynamic value, {String? parentKey}) {
-    if (parentKey != null) {
-      if (_formData[parentKey] is! Map) _formData[parentKey] = {};
-      _formData[parentKey][key] = value;
-    } else { _formData[key] = value; }
-    setState(() {});
+  // دعم الأقواس مثل names[first_name]
+  dynamic _getValue(String key) {
+    key = key.replaceAll('[]', '');
+    if (key.contains('[') && key.endsWith(']')) {
+      String parent = key.substring(0, key.indexOf('['));
+      String child = key.substring(key.indexOf('[') + 1, key.length - 1);
+      if (_formData[parent] is Map) return _formData[parent][child];
+      return null;
+    }
+    return _formData[key];
   }
 
-  dynamic _getValue(String key, {String? parentKey}) => parentKey != null ? (_formData[parentKey] is Map ? _formData[parentKey][key] : null) : _formData[key];
+  void _updateValue(String key, dynamic value) {
+    if (key.isEmpty) return;
+    key = key.replaceAll('[]', '');
+    setState(() {
+      if (key.contains('[') && key.endsWith(']')) {
+        String parent = key.substring(0, key.indexOf('['));
+        String child = key.substring(key.indexOf('[') + 1, key.length - 1);
+        if (_formData[parent] is! Map) _formData[parent] = <String, dynamic>{};
+        _formData[parent][child] = value;
+      } else {
+        _formData[key] = value;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    if (_loading && _schema == null) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    if (_loading && _schema == null) return Scaffold(appBar: AppBar(title: Text(widget.title)), body: const Center(child: CircularProgressIndicator()));
+    if (_schema == null) return Scaffold(appBar: AppBar(title: Text(widget.title)), body: const Center(child: Text("Could not load form.")));
+
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(20),
         child: Form(
           key: _formKey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ..._schema!.fields.map((f) => _buildField(f)).toList(),
               const SizedBox(height: 30),
-              SizedBox(width: double.infinity, child: ElevatedButton(onPressed: _loading ? null : _submitForm, style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 16), backgroundColor: AppTheme.deltaDarkBlue, foregroundColor: Colors.white), child: _loading ? const CircularProgressIndicator(color: Colors.white) : const Text('Submit', style: TextStyle(fontSize: 18)))),
+              SizedBox(
+                  width: double.infinity, height: 55,
+                  child: ElevatedButton(
+                      onPressed: _loading ? null : _submitForm,
+                      style: ElevatedButton.styleFrom(backgroundColor: AppTheme.deltaDarkBlue, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                      child: _loading ? const CircularProgressIndicator(color: Colors.white) : const Text('Submit', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))
+                  )
+              ),
+              const SizedBox(height: 40),
             ],
           ),
         ),
@@ -1202,69 +1266,237 @@ class _DynamicFormPageState extends State<DynamicFormPage> {
 
   Widget _buildField(FormFieldSchema field) {
     if (!_shouldShowField(field)) return const SizedBox.shrink();
-    if (field.type == 'section') return Padding(padding: const EdgeInsets.symmetric(vertical: 16), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(field.label, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)), const Divider()]));
-    if (field.subFields.isNotEmpty) return Container(margin: const EdgeInsets.only(bottom: 16), padding: const EdgeInsets.all(12), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade300)), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [if(field.label.isNotEmpty) Padding(padding: const EdgeInsets.only(bottom: 12), child: Text(field.label, style: const TextStyle(fontWeight: FontWeight.bold))), ...field.subFields.map((s) => Padding(padding: const EdgeInsets.only(bottom: 12), child: _buildInput(s, parentKey: field.key)))]));
-    return Padding(padding: const EdgeInsets.only(bottom: 16), child: _buildInput(field));
+
+    // Section Break
+    if (field.type == 'section_break' || field.type == 'section') {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (field.label.isNotEmpty) Text(field.label, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
+            if (field.placeholder != null && field.placeholder!.isNotEmpty)
+              Padding(padding: const EdgeInsets.only(top: 8.0), child: Text(field.placeholder!, style: const TextStyle(fontSize: 14, color: Colors.grey))),
+            const SizedBox(height: 8), const Divider(thickness: 1.5),
+          ],
+        ),
+      );
+    }
+
+    // Container / Columns
+    if (field.type == 'container') {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: field.subFields.map((subFieldGroup) {
+            return Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: subFieldGroup.subFields.map((f) => _buildField(f)).toList()),
+              ),
+            );
+          }).toList(),
+        ),
+      );
+    }
+
+    // الحقول المجمعة (مثل الاسم الأول والأخير)
+    if (field.subFields.isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (field.label.isNotEmpty)
+              Padding(padding: const EdgeInsets.only(bottom: 8.0), child: RichText(text: TextSpan(text: field.label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black87), children: [if (field.required) const TextSpan(text: ' *', style: TextStyle(color: Colors.red))]))),
+            ...field.subFields.map((f) => _buildField(f)).toList(),
+          ],
+        ),
+      );
+    }
+
+    // Normal Input
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (field.label.isNotEmpty)
+            Padding(padding: const EdgeInsets.only(bottom: 8.0), child: RichText(text: TextSpan(text: field.label, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black87), children: [if (field.required) const TextSpan(text: ' *', style: TextStyle(color: Colors.red))]))),
+          _buildInput(field),
+        ],
+      ),
+    );
   }
 
-  Widget _buildInput(FormFieldSchema field, {String? parentKey}) {
-    final val = _getValue(field.key, parentKey: parentKey);
-    final decor = InputDecoration(labelText: field.label + (field.required ? ' *' : ''), hintText: field.placeholder);
-    if (field.type == 'select') return DropdownButtonFormField<String>(decoration: decor, value: val?.toString(), items: field.options.map((o) => DropdownMenuItem(value: o['value'], child: Text(o['label']!))).toList(), onChanged: (v) => _updateValue(field.key, v, parentKey: parentKey));
-    if (field.type == 'date') return TextFormField(controller: TextEditingController(text: val?.toString()), readOnly: true, decoration: decor.copyWith(suffixIcon: const Icon(Icons.calendar_today)), onTap: () async { final d = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100)); if(d!=null) _updateValue(field.key, "${d.year}-${d.month.toString().padLeft(2,'0')}-${d.day.toString().padLeft(2,'0')}", parentKey: parentKey); });
-    return TextFormField(initialValue: val?.toString(), decoration: decor, maxLines: field.type == 'textarea' ? 4 : 1, onChanged: (v) => _updateValue(field.key, v, parentKey: parentKey), validator: (v) => field.required && (v==null||v.isEmpty) ? 'Required' : null);
+  Widget _buildInput(FormFieldSchema field) {
+    final val = _getValue(field.key);
+    final decor = InputDecoration(hintText: field.placeholder ?? 'Select an option');
+
+    if (field.type == 'select' || field.type == 'select_country') {
+      return DropdownButtonFormField<String>(
+        decoration: decor, value: val?.toString(), isExpanded: true,
+        items: field.options.map((o) => DropdownMenuItem(value: o['value'], child: Text(o['label']!))).toList(),
+        onChanged: (v) => _updateValue(field.key, v), validator: (v) => field.required && (v == null || v.isEmpty) ? 'Required' : null,
+      );
+    }
+
+    if (field.type == 'input_radio') {
+      return Column(children: field.options.map((o) => RadioListTile<String>(title: Text(o['label']!), value: o['value']!, groupValue: val?.toString(), contentPadding: EdgeInsets.zero, dense: true, onChanged: (v) => _updateValue(field.key, v))).toList());
+    }
+
+    if (field.type == 'input_checkbox' || field.type == 'terms_and_condition') {
+      List<String> currentValues = (val as List<dynamic>?)?.map((e) => e.toString()).toList() ?? [];
+      if (field.options.isEmpty && field.type == 'terms_and_condition') {
+        // حقل الموافقة المفرد
+        return CheckboxListTile(
+          title: const Text("I agree to the terms and conditions"),
+          value: currentValues.isNotEmpty,
+          contentPadding: EdgeInsets.zero, dense: true, controlAffinity: ListTileControlAffinity.leading,
+          onChanged: (bool? checked) => _updateValue(field.key, checked == true ? ['on'] : []),
+        );
+      }
+      return Column(children: field.options.map((o) {
+        bool isChecked = currentValues.contains(o['value']);
+        return CheckboxListTile(title: Text(o['label']!), value: isChecked, contentPadding: EdgeInsets.zero, dense: true, controlAffinity: ListTileControlAffinity.leading, onChanged: (bool? checked) { if (checked == true) { currentValues.add(o['value']!); } else { currentValues.remove(o['value']); } _updateValue(field.key, currentValues); });
+      }).toList());
+    }
+
+    if (field.type == 'input_date' || field.type == 'date') {
+      return TextFormField(
+        controller: TextEditingController(text: val?.toString()), readOnly: true, decoration: InputDecoration(hintText: field.placeholder ?? 'YYYY-MM-DD', suffixIcon: const Icon(Icons.calendar_today)), validator: (v) => field.required && (v == null || v.isEmpty) ? 'Required' : null,
+        onTap: () async { final d = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1900), lastDate: DateTime(2100)); if (d != null) _updateValue(field.key, "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}"); },
+      );
+    }
+
+    return TextFormField(
+      initialValue: val?.toString(), decoration: InputDecoration(hintText: field.placeholder), maxLines: field.type == 'textarea' ? 4 : 1, keyboardType: field.type == 'input_email' ? TextInputType.emailAddress : (field.type == 'phone' ? TextInputType.phone : TextInputType.text),
+      onChanged: (v) => _updateValue(field.key, v), validator: (v) => field.required && (v == null || v.isEmpty) ? 'Required' : null,
+    );
   }
 }
 
+
 // -------------------- Models --------------------
+
 
 class FormListItem {
   final int id; final String title;
   FormListItem({required this.id, required this.title});
-  factory FormListItem.fromJson(Map<String, dynamic> json) => FormListItem(id: json['id'] ?? json['form_id'] ?? 0, title: json['title'] ?? 'Untitled');
+  factory FormListItem.fromJson(Map<String, dynamic> json) => FormListItem(id: int.parse(json['id']?.toString() ?? '0'), title: json['title'] ?? 'Untitled');
 }
 
 class FormSchema {
-  final int formId; final String title; final List<FormFieldSchema> fields;
+  final int formId;
+  final String title;
+  final List<FormFieldSchema> fields;
+
   FormSchema({required this.formId, required this.title, required this.fields});
-  factory FormSchema.fromMobileJson(Map<String, dynamic> json) { // <-- تم تحديد النوع كـ Map
-    List<FormFieldSchema> parse(dynamic j) {
-      if(j is! Map) return [];
-      if(j['element']=='container' && j['columns'] is List) return (j['columns'] as List).expand((c) => (c['fields'] as List).expand((f) => parse(f))).toList();
-      return [FormFieldSchema.fromJson(Map<String, dynamic>.from(j))]; // <-- تحويل صريح هنا
+
+  factory FormSchema.fromMobileJson(Map<String, dynamic> json) {
+    List<FormFieldSchema> parsedFields = [];
+
+    dynamic schemaData = json['schema'];
+
+    if (schemaData != null) {
+      if (schemaData is List) {
+        for (var item in schemaData) {
+          if (item is Map<String, dynamic>) {
+            parsedFields.add(FormFieldSchema.fromJson(item));
+          }
+        }
+      } else if (schemaData is Map) {
+        List fieldsList = schemaData['fields'] ?? schemaData.values.toList();
+        for (var item in fieldsList) {
+          if (item is Map<String, dynamic>) {
+            parsedFields.add(FormFieldSchema.fromJson(item));
+          }
+        }
+      }
     }
-    List<FormFieldSchema> fields = [];
-    if (json['schema'] is List) {
-      for (var i in json['schema']) if(i['raw'] != null) fields.addAll(i['raw'] is List ? (i['raw'] as List).expand((x) => parse(x)) : parse(i['raw']));
-    }
-    return FormSchema(formId: json['form_id'] ?? 0, title: json['title'] ?? '', fields: fields.where((f) => f.type != 'submit').toList());
+
+    // التعديل هنا: قمنا بإضافة custom_submit_button إلى قائمة الحقول المستبعدة
+    return FormSchema(
+        formId: json['form_id'] != null ? int.tryParse(json['form_id'].toString()) ?? 0 : 0,
+        title: json['title']?.toString() ?? '',
+        fields: parsedFields.where((f) {
+          final t = f.type.toLowerCase();
+          return t != 'button' && t != 'submit' && t != 'custom_submit_button';
+        }).toList()
+    );
   }
 }
 
 class FormFieldSchema {
-  final String key, label, type; final bool required; final String? placeholder, htmlContent;
-  final List<Map<String, String>> options; final List<FormFieldSchema> subFields; final Map<String, dynamic>? conditionalLogic;
-  FormFieldSchema({required this.key, required this.label, required this.type, required this.required, this.placeholder, this.options=const[], this.subFields=const[], this.conditionalLogic, this.htmlContent});
-  factory FormFieldSchema.fromJson(Map<String, dynamic> json) {
-    var s = Map<String, dynamic>.from(json['settings'] ?? {}); // <-- تحويل صريح
-    var a = Map<String, dynamic>.from(json['attributes'] ?? {}); // <-- تحويل صريح
-    String type = (json['element'] ?? 'text').toString();
-    if (['input_text','input_email','phone'].contains(type)) type = 'text';
-    if (['select','select_country'].contains(type)) type = 'select';
-    if (['section_break','custom_html'].contains(type)) type = 'section';
-    List<Map<String, String>> opts = [];
-    if(s['advanced_options'] is List) for(var o in s['advanced_options']) opts.add({'label': o['label'].toString(), 'value': o['value'].toString()});
-    List<FormFieldSchema> subs = [];
-    if(json['fields'] is List) for(var f in json['fields']) subs.add(FormFieldSchema.fromJson(Map<String, dynamic>.from(f))); // <-- تحويل صريح
+  final String key;
+  final String label;
+  final String type;
+  final bool required;
+  final String? placeholder;
+  final List<Map<String, String>> options;
+  final List<FormFieldSchema> subFields;
+  final Map<String, dynamic>? conditionalLogic;
 
-    Map<String, dynamic>? logic;
-    if(s['conditional_logics'] != null && s['conditional_logics'] is Map) {
-      logic = Map<String, dynamic>.from(s['conditional_logics']); // <-- تحويل صريح للـ logic
+  FormFieldSchema({
+    required this.key, required this.label, required this.type, required this.required,
+    this.placeholder, this.options = const [], this.subFields = const [], this.conditionalLogic
+  });
+
+  factory FormFieldSchema.fromJson(Map<String, dynamic> json) {
+    final attrs = (json['attributes'] is Map) ? Map<String, dynamic>.from(json['attributes']) : <String, dynamic>{};
+    final settings = (json['settings'] is Map) ? Map<String, dynamic>.from(json['settings']) : <String, dynamic>{};
+    String type = json['element']?.toString() ?? 'text';
+
+    List<FormFieldSchema> parsedSubFields = [];
+
+    // استخراج الـ Containers (الأعمدة)
+    if (type == 'container' && json['columns'] is List) {
+      for (var col in json['columns']) {
+        List<FormFieldSchema> colFields = [];
+        if (col is Map && col['fields'] is List) {
+          for (var f in col['fields']) {
+            if (f is Map<String, dynamic>) colFields.add(FormFieldSchema.fromJson(f));
+          }
+        }
+        parsedSubFields.add(FormFieldSchema(key: '', label: '', type: 'column', required: false, subFields: colFields));
+      }
+    }
+    // استخراج الحقول المجمعة (مثل Name و Address)
+    else if (json['fields'] is List) {
+      for (var f in json['fields']) {
+        if (f is Map<String, dynamic>) parsedSubFields.add(FormFieldSchema.fromJson(f));
+      }
     }
 
-    return FormFieldSchema(key: a['name'] ?? json['uniqElKey'] ?? '', label: s['label'] ?? '', type: type, required: s['validation_rules']?['required']?['value'] == true, placeholder: a['placeholder'], options: opts, subFields: subs, conditionalLogic: logic, htmlContent: s['html_codes']);
+    List<Map<String, String>> parsedOptions = [];
+    if (settings['advanced_options'] is List) {
+      for (var opt in settings['advanced_options']) {
+        if (opt is Map) parsedOptions.add({'label': opt['label']?.toString() ?? '', 'value': opt['value']?.toString() ?? ''});
+      }
+    }
+
+    Map<String, dynamic>? logic;
+    if (settings['conditional_logics'] is Map) logic = Map<String, dynamic>.from(settings['conditional_logics']);
+
+    bool isRequired = false;
+    if (settings['validation_rules'] is Map && settings['validation_rules']['required'] is Map) {
+      isRequired = settings['validation_rules']['required']['value'] == true;
+    }
+
+    return FormFieldSchema(
+      key: attrs['name']?.toString() ?? json['uniqElKey']?.toString() ?? '',
+      label: settings['label']?.toString() ?? settings['admin_field_label']?.toString() ?? '',
+      type: type,
+      required: isRequired,
+      placeholder: attrs['placeholder']?.toString() ?? settings['help_message']?.toString(),
+      options: parsedOptions,
+      subFields: parsedSubFields,
+      conditionalLogic: logic,
+    );
   }
 }
+
 
 class JobItem {
   final int? id; final String title; final DateTime? deadline; final String? fileUrl, imageUrl;
