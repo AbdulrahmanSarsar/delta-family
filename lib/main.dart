@@ -16,6 +16,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lottie/lottie.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'firebase_options.dart';
 
 // --- الحزم الجديدة للكورسات ---
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,7 +25,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 // دالة لالتقاط الإشعارات في الخلفية
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   debugPrint("Background message received: ${message.messageId}");
 }
 
@@ -45,7 +46,7 @@ void main() async {
 
   try {
     // تشغيل الفايربيس الأساسي (سريع جداً ولا يعلق)
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
     // نستدعي الإشعارات ونتركها تعمل في الخلفية بدون أمر await الذي يعطل الإقلاع
