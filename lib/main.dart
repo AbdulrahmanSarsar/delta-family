@@ -1527,80 +1527,138 @@ class _CoursesTabState extends State<CoursesTab> {
   }
 
   Widget _buildLockScreen() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(color: Colors.blue.shade50, shape: BoxShape.circle),
-              child: const Icon(Icons.lock_outline_rounded, size: 80, color: AppTheme.deltaLightBlue),
-            ),
-            const SizedBox(height: 24),
-            const Text("Unlock This Free Course", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
-            const SizedBox(height: 12),
-            const Text(
-              "Join our community today! Please register to get instant access to the complete video lessons and curriculum.",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.black54, height: 1.5),
-            ),
-            const SizedBox(height: 40),
-            SizedBox(
-              width: double.infinity,
-              height: 55,
-              child: ElevatedButton.icon(
-                onPressed: _openRegistrationForm,
-                icon: const Icon(Icons.how_to_reg),
-                label: const Text("Register Now for Free", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.deltaDarkBlue,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  elevation: 5,
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(color: Colors.blue.shade50, shape: BoxShape.circle),
+                  child: const Icon(Icons.lock_outline_rounded, size: 80, color: AppTheme.deltaLightBlue),
                 ),
-              ),
-            )
-          ],
+                const SizedBox(height: 24),
+                const Text("Unlock This Free Course", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
+                const SizedBox(height: 12),
+                const Text(
+                  "Join our community today! Please register to get instant access to the complete video lessons and curriculum.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.black54, height: 1.5),
+                ),
+                const SizedBox(height: 24),
+                _buildSelfPacedNote(),
+                const SizedBox(height: 28),
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton.icon(
+                    onPressed: _openRegistrationForm,
+                    icon: const Icon(Icons.how_to_reg),
+                    label: const Text("Register Now for Free", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppTheme.deltaDarkBlue,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      elevation: 5,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildCourseDashboard() {
-    return ListView.separated(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 90),
-      itemCount: _lessons.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
-      itemBuilder: (context, index) {
-        final lesson = _lessons[index];
-        return Card(
-          elevation: 0,
-          shape: AppTheme.cardShape,
-          color: Colors.white,
-          child: ListTile(
-            contentPadding: const EdgeInsets.all(12),
-            leading: Container(
-              width: 50, height: 50,
-              decoration: BoxDecoration(color: AppTheme.deltaLightBlue.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-              child: Center(child: Text("${lesson.index}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue))),
-            ),
-            title: Text(lesson.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-            subtitle: Text("⏱ ${lesson.duration}", style: TextStyle(color: Colors.grey.shade600)),
-            trailing: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: AppTheme.deltaDarkBlue, borderRadius: BorderRadius.circular(50)),
-              child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
-            ),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (_) => LessonPlayerPage(lessons: _lessons, initialIndex: index)
-              ));
-            },
+  // ملاحظة "self-paced / pre-recorded" — مستخدمة بشاشة القفل ولوحة الدروس
+  Widget _buildSelfPacedNote() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppTheme.deltaLightBlue.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: AppTheme.deltaLightBlue.withOpacity(0.25)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(color: AppTheme.deltaLightBlue.withOpacity(0.15), shape: BoxShape.circle),
+            child: const Icon(Icons.play_circle_outline_rounded, color: AppTheme.deltaDarkBlue, size: 26),
           ),
-        );
-      },
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Text("Self-paced", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(color: AppTheme.deltaLightBlue.withOpacity(0.15), borderRadius: BorderRadius.circular(20)),
+                      child: const Text("PRE-RECORDED", style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue, letterSpacing: 0.5)),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  "All lessons are recorded videos you watch right here — anytime, anywhere, and rewatch as often as you like. There are no live sessions and no scheduled attendance.",
+                  style: TextStyle(fontSize: 13.5, color: Colors.black54, height: 1.5),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCourseDashboard() {
+    return ListView(
+      padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 90),
+      children: [
+        _buildSelfPacedNote(),
+        const SizedBox(height: 16),
+        ...List.generate(_lessons.length, (index) {
+          final lesson = _lessons[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Card(
+              elevation: 0,
+              shape: AppTheme.cardShape,
+              color: Colors.white,
+              child: ListTile(
+                contentPadding: const EdgeInsets.all(12),
+                leading: Container(
+                  width: 50, height: 50,
+                  decoration: BoxDecoration(color: AppTheme.deltaLightBlue.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                  child: Center(child: Text("${lesson.index}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue))),
+                ),
+                title: Text(lesson.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                subtitle: Text("⏱ ${lesson.duration}", style: TextStyle(color: Colors.grey.shade600)),
+                trailing: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(color: AppTheme.deltaDarkBlue, borderRadius: BorderRadius.circular(50)),
+                  child: const Icon(Icons.play_arrow_rounded, color: Colors.white, size: 20),
+                ),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (_) => LessonPlayerPage(lessons: _lessons, initialIndex: index)
+                  ));
+                },
+              ),
+            ),
+          );
+        }),
+      ],
     );
   }
 }
