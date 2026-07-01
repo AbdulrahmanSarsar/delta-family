@@ -206,13 +206,13 @@ class _MainShellState extends State<MainShell> {
   late PageController _pageController;
 
   // --- إضافة الـ CoursesTab إلى قائمة الصفحات ---
-  final List<Widget> _pages = const [
-    HomeTab(),
-    EventsTab(),
-    ProgramsTab(),
-    JobsTab(),
-    FlyersTab(),
-    CoursesTab(),
+  late final List<Widget> _pages = [
+    HomeTab(onNavigateToTab: _onTabTapped),
+    const EventsTab(),
+    const ProgramsTab(),
+    const JobsTab(),
+    const FlyersTab(),
+    const CoursesTab(),
   ];
 
   @override
@@ -266,9 +266,12 @@ class _MainShellState extends State<MainShell> {
             onTap: _onTabTapped,
             backgroundColor: Colors.white,
             selectedItemColor: AppTheme.deltaDarkBlue,
-            unselectedItemColor: Colors.grey.shade400,
+            unselectedItemColor: Colors.grey.shade500,
             selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11),
-            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.normal, fontSize: 10),
+            unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 11),
+            selectedFontSize: 11,
+            unselectedFontSize: 11,
+            iconSize: 26,
             showUnselectedLabels: true,
             type: BottomNavigationBarType.fixed,
             elevation: 0,
@@ -291,7 +294,8 @@ class _MainShellState extends State<MainShell> {
 // -------------------- 1. Home Tab --------------------
 
 class HomeTab extends StatefulWidget {
-  const HomeTab({Key? key}) : super(key: key);
+  final void Function(int)? onNavigateToTab;
+  const HomeTab({Key? key, this.onNavigateToTab}) : super(key: key);
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
@@ -415,19 +419,26 @@ class _HomeTabState extends State<HomeTab> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            _buildHeaderSection(),
+            _buildWelcomeHeader(),
             if (_flyers.isNotEmpty) _buildFlyersSlider(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 90),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSectionHeader("Upcoming Event", Icons.calendar_today),
-                  _nextEvent != null ? _buildEventCard(_nextEvent!) : _buildEmptyState("No upcoming events."),
-                  const SizedBox(height: 24),
-                  _buildSectionHeader("Latest Opportunities", Icons.work_outline),
-                  if (_jobs.isNotEmpty) ..._jobs.take(3).map((j) => _buildJobCard(j)) else _buildEmptyState("No job openings."),
-                  const SizedBox(height: 90),
+                  _buildCoursesIntro(),
+                  const SizedBox(height: 26),
+                  _buildQuickAccess(),
+                  if (_nextEvent != null) ...[
+                    const SizedBox(height: 26),
+                    _buildSectionHeader("Upcoming Event", Icons.calendar_today),
+                    _buildEventCard(_nextEvent!),
+                  ],
+                  if (_jobs.isNotEmpty) ...[
+                    const SizedBox(height: 26),
+                    _buildSectionHeader("Latest Opportunities", Icons.work_outline),
+                    ..._jobs.take(3).map((j) => _buildJobCard(j)),
+                  ],
                 ],
               ),
             ),
@@ -437,39 +448,160 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget _buildHeaderSection() {
+  // Clean brand-gradient welcome header (no image)
+  Widget _buildWelcomeHeader() {
     return Container(
       width: double.infinity,
-      height: 220,
+      padding: const EdgeInsets.fromLTRB(20, 22, 20, 26),
       decoration: const BoxDecoration(
-        color: Colors.white,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft, end: Alignment.bottomRight,
+          colors: [AppTheme.deltaDarkBlue, AppTheme.deltaLightBlue],
+        ),
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
         boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 15, offset: Offset(0, 5))],
       ),
-      child: Stack(
-        fit: StackFit.expand,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-            child: _netImage(ApiConfig.HEADER_IMAGE_URL, placeholder: Container(color: AppTheme.deltaLightBlue)),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(color: Colors.white.withOpacity(0.18), borderRadius: BorderRadius.circular(14)),
+                child: const Icon(Icons.waving_hand_rounded, color: AppTheme.deltaYellow, size: 24),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text("Welcome to", style: TextStyle(color: Colors.white70, fontSize: 14)),
+                    Text("Delta Family Resource Centre", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold, height: 1.2)),
+                  ],
+                ),
+              ),
+            ],
           ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.transparent, Colors.black.withOpacity(0.6)]),
-            ),
+          const SizedBox(height: 14),
+          Text(
+            "Explore our free courses, programs, events and the latest community updates — all in one place.",
+            style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 13.5, height: 1.5),
           ),
-          const Positioned(
-            bottom: 25, left: 20, right: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Welcome to Delta", style: TextStyle(color: Colors.white, fontSize: 26, fontWeight: FontWeight.bold, shadows: [Shadow(color: Colors.black45, blurRadius: 8)])),
-                Text("Family Resource Centre", style: TextStyle(color: AppTheme.deltaYellow, fontSize: 16, fontWeight: FontWeight.w600, shadows: [Shadow(color: Colors.black45, blurRadius: 8)])),
-              ],
-            ),
-          )
         ],
+      ),
+    );
+  }
+
+  // Small intro promoting the two courses
+  Widget _buildCoursesIntro() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSectionHeader("Our Courses", Icons.school_rounded),
+        Text("Free, self-paced online courses you can start anytime.", style: TextStyle(fontSize: 13, color: Colors.grey.shade600, height: 1.4)),
+        const SizedBox(height: 14),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(child: _homeCourseCard(
+              title: "Sewing Course",
+              subtitle: "Beginner video lessons",
+              icon: Icons.content_cut_rounded,
+              color: AppTheme.deltaLightBlue,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SewingCoursePage())),
+            )),
+            const SizedBox(width: 12),
+            Expanded(child: _homeCourseCard(
+              title: "Job Readiness",
+              subtitle: "8 modules · 33 lessons",
+              icon: Icons.work_history_rounded,
+              color: AppTheme.deltaDarkBlue,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const JobReadinessHomePage())),
+            )),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _homeCourseCard({required String title, required String subtitle, required IconData icon, required Color color, required VoidCallback onTap}) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 8, offset: const Offset(0, 3))],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(12)),
+              child: Icon(icon, color: color, size: 24),
+            ),
+            const SizedBox(height: 12),
+            Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black87)),
+            const SizedBox(height: 3),
+            Text(subtitle, style: TextStyle(fontSize: 11.5, color: Colors.grey.shade600, height: 1.3)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Quick-access hub so the home always has useful content
+  Widget _buildQuickAccess() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSectionHeader("Explore", Icons.grid_view_rounded),
+        GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
+          childAspectRatio: 2.7,
+          children: [
+            _quickTile("Programs", Icons.assignment_rounded, 2),
+            _quickTile("Events", Icons.calendar_month_rounded, 1),
+            _quickTile("Jobs", Icons.work_rounded, 3),
+            _quickTile("Flyers", Icons.campaign_rounded, 4),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _quickTile(String label, IconData icon, int tabIndex) {
+    return InkWell(
+      onTap: () => widget.onNavigateToTab?.call(tabIndex),
+      borderRadius: BorderRadius.circular(14),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(9),
+              decoration: BoxDecoration(color: AppTheme.deltaLightBlue.withOpacity(0.1), borderRadius: BorderRadius.circular(10)),
+              child: Icon(icon, color: AppTheme.deltaDarkBlue, size: 20),
+            ),
+            const SizedBox(width: 10),
+            Expanded(child: Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black87))),
+            const Icon(Icons.chevron_right_rounded, color: Colors.grey, size: 18),
+          ],
+        ),
       ),
     );
   }
@@ -634,13 +766,6 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget _buildEmptyState(String text) {
-    return Container(
-      width: double.infinity, padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.grey.shade200)),
-      child: Column(children: [Icon(Icons.inbox_rounded, size: 40, color: Colors.grey.shade300), const SizedBox(height: 8), Text(text, style: TextStyle(color: Colors.grey.shade500))]),
-    );
-  }
 }
 
 // -------------------- 2. Events Tab --------------------
