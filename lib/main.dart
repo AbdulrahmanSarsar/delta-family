@@ -501,25 +501,29 @@ class _HomeTabState extends State<HomeTab> {
         _buildSectionHeader("Our Courses", Icons.school_rounded),
         Text("Free, self-paced online courses you can start anytime.", style: TextStyle(fontSize: 13, color: Colors.grey.shade600, height: 1.4)),
         const SizedBox(height: 14),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(child: _homeCourseCard(
-              title: "Sewing Course",
-              subtitle: "Beginner video lessons",
-              icon: Icons.content_cut_rounded,
-              color: AppTheme.deltaLightBlue,
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SewingCoursePage())),
-            )),
-            const SizedBox(width: 12),
-            Expanded(child: _homeCourseCard(
-              title: "Job Readiness",
-              subtitle: "8 modules · 33 lessons",
-              icon: Icons.work_history_rounded,
-              color: AppTheme.deltaDarkBlue,
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const JobReadinessHomePage())),
-            )),
-          ],
+        // IntrinsicHeight gives the Row a bounded height so CrossAxisAlignment.stretch
+        // (equal-height cards) is valid inside the vertically-unbounded ListView.
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(child: _homeCourseCard(
+                title: "Sewing Course",
+                subtitle: "Beginner video lessons",
+                icon: Icons.content_cut_rounded,
+                color: AppTheme.deltaLightBlue,
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SewingCoursePage())),
+              )),
+              const SizedBox(width: 12),
+              Expanded(child: _homeCourseCard(
+                title: "Job Readiness",
+                subtitle: "8 modules · 33 lessons",
+                icon: Icons.work_history_rounded,
+                color: AppTheme.deltaDarkBlue,
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const JobReadinessHomePage())),
+              )),
+            ],
+          ),
         ),
       ],
     );
