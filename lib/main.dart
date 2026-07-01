@@ -4,6 +4,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -1451,13 +1452,119 @@ class FlyerDetailPage extends StatelessWidget {
 
 // -------------------- 6. Courses Tab & Player --------------------
 
-class CoursesTab extends StatefulWidget {
+// ============================ COURSES TAB (selector) ============================
+// Lists the available courses; each opens its own dedicated page.
+class CoursesTab extends StatelessWidget {
   const CoursesTab({Key? key}) : super(key: key);
+
   @override
-  State<CoursesTab> createState() => _CoursesTabState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Courses')),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
+        children: [
+          _CourseSelectorCard(
+            title: 'Free Sewing Course',
+            subtitle: 'Beginner sewing — self-paced video lessons',
+            icon: Icons.content_cut_rounded,
+            imageUrl: 'https://dfrc.ca/wp-content/uploads/2026/05/ChatGPT-Image-May-26-2026-12_02_33-AM.jpg',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SewingCoursePage())),
+          ),
+          const SizedBox(height: 16),
+          _CourseSelectorCard(
+            title: 'Job Readiness Program',
+            subtitle: 'Pathway to Employment — 8 modules · 33 lessons',
+            icon: Icons.work_history_rounded,
+            imageUrl: 'https://amal-sarsar.github.io/Job-Readiness-course/course-img.png',
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const JobReadinessHomePage())),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
-class _CoursesTabState extends State<CoursesTab> {
+class _CourseSelectorCard extends StatelessWidget {
+  final String title, subtitle, imageUrl;
+  final IconData icon;
+  final VoidCallback onTap;
+  const _CourseSelectorCard({
+    required this.title, required this.subtitle, required this.imageUrl,
+    required this.icon, required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      shape: AppTheme.cardShape,
+      clipBehavior: Clip.antiAlias,
+      color: Colors.white,
+      child: InkWell(
+        onTap: onTap,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 16 / 7,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  _netImage(imageUrl, fit: BoxFit.cover),
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter, end: Alignment.bottomCenter,
+                        colors: [Colors.transparent, Colors.black.withOpacity(0.45)],
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 14, bottom: 12,
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.92), borderRadius: BorderRadius.circular(10)),
+                      child: Icon(icon, color: AppTheme.deltaDarkBlue, size: 22),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
+                  const SizedBox(height: 4),
+                  Text(subtitle, style: TextStyle(fontSize: 13.5, color: Colors.grey.shade600, height: 1.4)),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: const [
+                      Text('Open course', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppTheme.deltaLightBlue)),
+                      SizedBox(width: 4),
+                      Icon(Icons.arrow_forward_rounded, size: 16, color: AppTheme.deltaLightBlue),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ============================ SEWING COURSE ============================
+class SewingCoursePage extends StatefulWidget {
+  const SewingCoursePage({Key? key}) : super(key: key);
+  @override
+  State<SewingCoursePage> createState() => _SewingCoursePageState();
+}
+
+class _SewingCoursePageState extends State<SewingCoursePage> {
   bool _loading = true;
   bool _hasAccess = false;
   String? _error;
@@ -1659,6 +1766,346 @@ class _CoursesTabState extends State<CoursesTab> {
           );
         }),
       ],
+    );
+  }
+}
+
+// ============================ JOB READINESS PROGRAM ============================
+
+class JRCourse {
+  final String title, subtitle, cover, introHtml;
+  final List<JRModule> modules;
+  JRCourse({required this.title, required this.subtitle, required this.cover, required this.introHtml, required this.modules});
+  factory JRCourse.fromJson(Map<String, dynamic> j) => JRCourse(
+        title: j['title']?.toString() ?? '',
+        subtitle: j['subtitle']?.toString() ?? '',
+        cover: j['cover']?.toString() ?? '',
+        introHtml: j['intro_html']?.toString() ?? '',
+        modules: (j['modules'] as List? ?? []).whereType<Map<String, dynamic>>().map(JRModule.fromJson).toList(),
+      );
+}
+
+class JRModule {
+  final String id, title, subtitle;
+  final List<String> outcomes;
+  final List<JRLesson> lessons;
+  JRModule({required this.id, required this.title, required this.subtitle, required this.outcomes, required this.lessons});
+  factory JRModule.fromJson(Map<String, dynamic> j) => JRModule(
+        id: j['id']?.toString() ?? '',
+        title: j['title']?.toString() ?? '',
+        subtitle: j['subtitle']?.toString() ?? '',
+        outcomes: (j['outcomes'] as List? ?? []).map((e) => e.toString()).toList(),
+        lessons: (j['lessons'] as List? ?? []).whereType<Map<String, dynamic>>().map(JRLesson.fromJson).toList(),
+      );
+}
+
+class JRLesson {
+  final String id, title, html;
+  final int number;
+  JRLesson({required this.id, required this.title, required this.html, required this.number});
+  factory JRLesson.fromJson(Map<String, dynamic> j) => JRLesson(
+        id: j['id']?.toString() ?? '',
+        title: j['title']?.toString() ?? '',
+        html: j['html']?.toString() ?? '',
+        number: (j['number'] is int) ? j['number'] : int.tryParse('${j['number']}') ?? 0,
+      );
+}
+
+// Shared flutter_html styling + link handling for Job Readiness content
+Map<String, Style> _jrHtmlStyle() => {
+      "body": Style(margin: Margins.zero, fontSize: FontSize(15.5), lineHeight: LineHeight.number(1.6), color: Colors.black87),
+      "p": Style(margin: Margins.only(bottom: 12)),
+      "h1": Style(fontSize: FontSize(20), fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue),
+      "h2": Style(fontSize: FontSize(17), fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue, margin: Margins.only(top: 8, bottom: 6)),
+      "h3": Style(fontSize: FontSize(15.5), fontWeight: FontWeight.bold, color: Colors.black87),
+      "a": Style(color: AppTheme.deltaLightBlue, textDecoration: TextDecoration.underline),
+      "img": Style(margin: Margins.symmetric(vertical: 10)),
+      "ul": Style(margin: Margins.only(left: 4, bottom: 12)),
+      "li": Style(margin: Margins.only(bottom: 6)),
+    };
+
+void _jrOpenLink(String? url) {
+  if (url == null || url.isEmpty) return;
+  final uri = Uri.tryParse(url);
+  if (uri != null) launchUrl(uri, mode: LaunchMode.externalApplication);
+}
+
+Widget _jrSelfPacedChip() {
+  return Container(
+    padding: const EdgeInsets.all(14),
+    decoration: BoxDecoration(
+      color: AppTheme.deltaLightBlue.withOpacity(0.08),
+      borderRadius: BorderRadius.circular(14),
+      border: Border.all(color: AppTheme.deltaLightBlue.withOpacity(0.25)),
+    ),
+    child: Row(
+      children: const [
+        Icon(Icons.schedule_rounded, color: AppTheme.deltaDarkBlue, size: 22),
+        SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            'Self-paced online course — learn anytime, at your own pace. No live sessions.',
+            style: TextStyle(fontSize: 13.5, color: Colors.black87, height: 1.45),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+class JobReadinessHomePage extends StatefulWidget {
+  const JobReadinessHomePage({Key? key}) : super(key: key);
+  @override
+  State<JobReadinessHomePage> createState() => _JobReadinessHomePageState();
+}
+
+class _JobReadinessHomePageState extends State<JobReadinessHomePage> {
+  JRCourse? _course;
+  bool _loading = true;
+  String? _error;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final raw = await rootBundle.loadString('assets/courses/job_readiness.json');
+      final data = jsonDecode(raw) as Map<String, dynamic>;
+      if (mounted) setState(() { _course = JRCourse.fromJson(data); _loading = false; });
+    } catch (e) {
+      if (mounted) setState(() { _error = 'Could not load the course content.'; _loading = false; });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppTheme.bgGrey,
+      appBar: AppBar(title: const Text('Job Readiness')),
+      body: _loading
+          ? const Center(child: CircularProgressIndicator(color: AppTheme.deltaLightBlue))
+          : _error != null
+              ? Center(child: Text(_error!, style: const TextStyle(color: Colors.grey)))
+              : _buildContent(),
+    );
+  }
+
+  Widget _buildContent() {
+    final c = _course!;
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 90),
+      children: [
+        AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              _netImage(c.cover, fit: BoxFit.cover),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter, end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black.withOpacity(0.55)],
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 20, right: 20, bottom: 16,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(c.title, style: const TextStyle(color: Colors.white, fontSize: 21, fontWeight: FontWeight.bold, height: 1.2)),
+                    if (c.subtitle.isNotEmpty)
+                      Padding(padding: const EdgeInsets.only(top: 4), child: Text(c.subtitle, style: const TextStyle(color: Colors.white70, fontSize: 13))),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _jrSelfPacedChip(),
+              const SizedBox(height: 16),
+              if (c.introHtml.isNotEmpty)
+                Card(
+                  elevation: 0, shape: AppTheme.cardShape, color: Colors.white,
+                  child: Theme(
+                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                    child: ExpansionTile(
+                      tilePadding: const EdgeInsets.symmetric(horizontal: 16),
+                      childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                      leading: const Icon(Icons.info_outline_rounded, color: AppTheme.deltaDarkBlue),
+                      title: const Text('About this program', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
+                      children: [Html(data: c.introHtml, style: _jrHtmlStyle(), onLinkTap: (url, _, __) => _jrOpenLink(url))],
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 20),
+              const Text('Course Modules', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
+              const SizedBox(height: 12),
+              ...List.generate(c.modules.length, (i) => _moduleCard(c.modules[i], i + 1)),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _moduleCard(JRModule m, int number) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Card(
+        elevation: 0, shape: AppTheme.cardShape, color: Colors.white,
+        child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          leading: Container(
+            width: 46, height: 46,
+            decoration: BoxDecoration(color: AppTheme.deltaLightBlue.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+            child: Center(child: Text('$number', style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue))),
+          ),
+          title: Text(m.subtitle.isNotEmpty ? m.subtitle : m.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15.5)),
+          subtitle: Padding(padding: const EdgeInsets.only(top: 3), child: Text('${m.lessons.length} lessons', style: TextStyle(color: Colors.grey.shade600, fontSize: 13))),
+          trailing: const Icon(Icons.chevron_right_rounded, color: Colors.grey),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => JRModulePage(module: m, moduleNumber: number))),
+        ),
+      ),
+    );
+  }
+}
+
+class JRModulePage extends StatelessWidget {
+  final JRModule module;
+  final int moduleNumber;
+  const JRModulePage({Key? key, required this.module, required this.moduleNumber}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppTheme.bgGrey,
+      appBar: AppBar(title: Text('Module $moduleNumber')),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 90),
+        children: [
+          Text(module.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue, height: 1.25)),
+          const SizedBox(height: 18),
+          if (module.outcomes.isNotEmpty)
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.grey.shade200)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Learning Outcomes', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
+                  const SizedBox(height: 10),
+                  ...module.outcomes.map((o) => Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(padding: EdgeInsets.only(top: 2), child: Icon(Icons.check_circle_rounded, size: 18, color: AppTheme.deltaLightBlue)),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text(o, style: const TextStyle(fontSize: 14, color: Colors.black87, height: 1.4))),
+                          ],
+                        ),
+                      )),
+                ],
+              ),
+            ),
+          const SizedBox(height: 22),
+          const Text('Lessons', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue)),
+          const SizedBox(height: 10),
+          ...List.generate(module.lessons.length, (i) {
+            final l = module.lessons[i];
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Card(
+                elevation: 0, shape: AppTheme.cardShape, color: Colors.white,
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(12),
+                  leading: Container(
+                    width: 42, height: 42,
+                    decoration: BoxDecoration(color: AppTheme.deltaDarkBlue, borderRadius: BorderRadius.circular(10)),
+                    child: Center(child: Text('${l.number}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+                  ),
+                  title: Text(l.title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+                  trailing: const Icon(Icons.play_circle_outline_rounded, color: AppTheme.deltaLightBlue),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => JRLessonPage(module: module, index: i))),
+                ),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+}
+
+class JRLessonPage extends StatefulWidget {
+  final JRModule module;
+  final int index;
+  const JRLessonPage({Key? key, required this.module, required this.index}) : super(key: key);
+  @override
+  State<JRLessonPage> createState() => _JRLessonPageState();
+}
+
+class _JRLessonPageState extends State<JRLessonPage> {
+  late int _index;
+  @override
+  void initState() { super.initState(); _index = widget.index; }
+
+  void _go(int i) => setState(() => _index = i);
+
+  @override
+  Widget build(BuildContext context) {
+    final lessons = widget.module.lessons;
+    final l = lessons[_index];
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(title: Text('Lesson ${l.number}')),
+      body: ListView(
+        key: ValueKey(_index),
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 24),
+        children: [
+          Text(l.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppTheme.deltaDarkBlue, height: 1.3)),
+          const SizedBox(height: 6),
+          const Divider(),
+          const SizedBox(height: 6),
+          Html(data: l.html, style: _jrHtmlStyle(), onLinkTap: (url, _, __) => _jrOpenLink(url)),
+        ],
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _index > 0 ? () => _go(_index - 1) : null,
+                  icon: const Icon(Icons.arrow_back_rounded, size: 18),
+                  label: const Text('Previous'),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: _index < lessons.length - 1 ? () => _go(_index + 1) : null,
+                  style: ElevatedButton.styleFrom(backgroundColor: AppTheme.deltaDarkBlue, foregroundColor: Colors.white),
+                  icon: const Icon(Icons.arrow_forward_rounded, size: 18),
+                  label: const Text('Next'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

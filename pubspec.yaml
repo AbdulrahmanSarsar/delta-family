@@ -49,3 +49,4 @@ flutter:
     - assets/images/delta-family-logo.png
     - assets/lottie/announcement.json
     - assets/lottie/noResultFound.json
+    - assets/courses/job_readiness.json

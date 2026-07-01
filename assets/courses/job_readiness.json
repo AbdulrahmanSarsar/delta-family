@@ -1,0 +1,310 @@
+{
+  "title": "Job Readiness & Graduate Employability Program",
+  "subtitle": "Pathway to Employment",
+  "cover": "https://amal-sarsar.github.io/Job-Readiness-course/course-img.png",
+  "intro_html": "<div class=\"intro-header\">\n<h1>Job Readiness &amp; Graduate Employability Program</h1>\n<p class=\"subtitle\">*Online course- Self-Led Learning*</p>\n<p class=\"tagline\">\n                Empowering job seekers with practical skills for employment.\n              </p>\n</div>\n<div class=\"course-meta-grid\">\n<div class=\"meta-card\">\n<strong>Total Duration:</strong>\n                60 Hours (6 Weeks)\n              </div>\n<div class=\"meta-card\">\n<strong>Target Audience:</strong>\n                Recent Graduates / Job Seekers\n              </div>\n<div class=\"meta-card\">\n<strong>Delivery Mode:</strong>\n                In-person or Online (Blended)\n              </div>\n</div>\n\n<h2>Program Overview</h2>\n<p>\n              This program prepares participants for the workforce by equipping\n              them with essential professional, communication, and job search\n              skills. Designed for youth, newcomers, and job seekers, it\n              provides practical, hands-on training and personalized support.\n            </p>\n<h2>Who Is It For?</h2>\n<ul style=\"padding-left: 20px; color: #475569\">\n<li>New graduates</li>\n<li>Newcomers to the workforce</li>\n<li>Individuals changing careers</li>\n<li>Anyone seeking better employment opportunities</li>\n</ul>\n<h2>Program Structure</h2>\n<div class=\"structure-list\">\n<div class=\"structure-item\">\n<h4>Module 1: Personal &amp; Professional Readiness (6 Hours)</h4>\n<ul>\n<li>\n                    Understand labour market trends and employer expectations\n                  </li>\n<li>Identify career goals and pathways</li>\n<li>Assess personal strengths and skills gaps</li>\n<li>Build confidence and a professional mindset</li>\n</ul>\n</div>\n<div class=\"structure-item\">\n<h4>Module 2: Job Search &amp; Application Skills (10 Hours)</h4>\n<ul>\n<li>Create a professional résumé tailored to job roles</li>\n<li>Write effective cover letters</li>\n<li>Optimize LinkedIn profiles</li>\n<li>Apply strategic job search techniques</li>\n</ul>\n</div>\n<div class=\"structure-item\">\n<h4>\n                  Module 3: Interview Skills &amp; Employment Communication (10\n                  Hours)\n                </h4>\n<ul>\n<li>Prepare confidently for interviews</li>\n<li>\n                    Answer behavioural interview questions using the STAR method\n                  </li>\n<li>\n                    Demonstrate professional communication and body language\n                  </li>\n<li>Negotiate salary and evaluate job offers</li>\n</ul>\n</div>\n<div class=\"structure-item\">\n<h4>Module 4: Workplace Soft Skills (10 Hours)</h4>\n<ul>\n<li>Communicate effectively in the workplace</li>\n<li>Collaborate in diverse teams</li>\n<li>Manage time and priorities</li>\n<li>Apply ethical and professional behaviour</li>\n</ul>\n</div>\n<div class=\"structure-item\">\n<h4>\n                  Module 5: Digital &amp; Workplace Technology Skills (8 Hours)\n                </h4>\n<ul>\n<li>Use workplace digital tools efficiently</li>\n<li>Write professional emails</li>\n<li>Create professional presentations</li>\n<li>Use AI tools responsibly for productivity</li>\n</ul>\n</div>\n<div class=\"structure-item\">\n<h4>\n                  Module 6: Workplace Culture, Rights &amp; Wellbeing (6 Hours)\n                </h4>\n<ul>\n<li>Understand organizational culture</li>\n<li>Identify employee rights and responsibilities</li>\n<li>Apply diversity and inclusion principles</li>\n<li>Manage stress and wellbeing</li>\n</ul>\n</div>\n<div class=\"structure-item\">\n<h4>\n                  Module 7: Career Development &amp; Future Planning (6 Hours)\n                </h4>\n<ul>\n<li>Develop long-term career plans</li>\n<li>Build professional networks</li>\n<li>Identify continuous learning opportunities</li>\n<li>Explore freelancing and entrepreneurship</li>\n</ul>\n</div>\n<div class=\"structure-item\">\n<h4>Module 8: Practical Application &amp; Capstone (4 Hours)</h4>\n<ul>\n<li>Participate in mock interviews</li>\n<li>Finalize CV and cover letter</li>\n<li>Analyze real-world case studies</li>\n<li>Develop a personal employment action plan</li>\n</ul>\n</div>\n</div>\n Start Course Button \n<div style=\"text-align: center; margin-top: 40px\">\n<button class=\"nav-btn\" onclick=\"showModule('module-1')\" style=\"\n                  background: var(--accent);\n                  padding: 15px 30px;\n                  font-size: 18px;\n                  font-weight: bold;\n                \">\n                Start Course Now ➔\n              </button>\n</div>",
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "Module 1: Personal & Professional Readiness",
+      "subtitle": "Personal & Professional Readiness",
+      "outcomes": [
+        "Understand the Canadian job market and employer expectations",
+        "Identify personal strengths and skills gaps",
+        "Set clear career goals and pathways",
+        "Build confidence and a professional mindset"
+      ],
+      "lessons": [
+        {
+          "id": "module-1-lesson-1",
+          "number": 1,
+          "title": "Understanding the Job Market & Employer Expectations",
+          "html": "<p>\n              The job market refers to available jobs, employer needs, and\n              in-demand skills. In Canada, employers value communication,\n              reliability, teamwork, and willingness to learn.\n            </p>\n<p>\n              *For more information about the top-most in-demand jobs in Toronto\n              for 2026 Please click on this link:\n            </p>\n<p><a href=\"https://www.youtube.com/watch?app=desktop&amp;v=7HxU8Sa-9uA&amp;t=26s\">https://www.youtube.com/watch?app=desktop&amp;v=7HxU8Sa-9uA&amp;t=26s</a></p>"
+        },
+        {
+          "id": "module-1-lesson-2",
+          "number": 2,
+          "title": "Knowing Yourself – Skills & Strengths",
+          "html": "<p>\n              Self-assessment helps you recognize what you are good at and what\n              you need to improve. Skills include hard skills (technical) and\n              soft skills (personal).\n            </p>\n<p>\n              *For more information about Transferable Skills, please click on\n              this link:\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=FJO8OHhVVcI\">https://www.youtube.com/watch?v=FJO8OHhVVcI</a></p>"
+        },
+        {
+          "id": "module-1-lesson-3",
+          "number": 3,
+          "title": "Career Goals & Pathways",
+          "html": "<p>\n              Career goals help guide your job search. SMART goals are Specific,\n              Measurable, Achievable, Relevant, and Time-based.\n            </p>\n<p>\n              *For more information about the SMART goal, please click on this\n              link:\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=1-SvuFIQjK8&amp;t=47s\">https://www.youtube.com/watch?v=1-SvuFIQjK8&amp;t=47s</a></p>"
+        },
+        {
+          "id": "module-1-lesson-4",
+          "number": 4,
+          "title": "Building Confidence & a Professional Mindset",
+          "html": "<p>\n              Confidence and professionalism help you succeed at work. A growth\n              mindset allows you to learn, accept feedback, and improve\n              continuously.\n            </p>\n<p>*For more information, please click on these links:</p>\n<p><a href=\"https://www.youtube.com/watch?v=hiiEeMN7vbQ&amp;t=16s\">https://www.youtube.com/watch?v=hiiEeMN7vbQ&amp;t=16s</a></p>\n<p><a href=\"https://www.youtube.com/watch?v=xuWUj9TtrOc\">https://www.youtube.com/watch?v=xuWUj9TtrOc</a></p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m1-l4.png\"/>"
+        }
+      ]
+    },
+    {
+      "id": "module-2",
+      "title": "Module 2: Job Search & Application Skills",
+      "subtitle": "Job Search & Application Skills",
+      "outcomes": [
+        "Create a Canadian-style résumé",
+        "Write an effective cover letter",
+        "Use online job search tools in Canada",
+        "Understand the hidden job market and networking"
+      ],
+      "lessons": [
+        {
+          "id": "module-2-lesson-1",
+          "number": 1,
+          "title": "Writing a Canadian Resume",
+          "html": "<p>\n              In Canada, résumés are usually 1–2 pages and focus on skills and\n              achievements. Do not include a photo, age, or marital status.\n            </p>\n<p>1- How to Write a Canadian Resume (Step-by-Step)</p>\n<p>Please click on this link:</p>\n<p><a href=\"https://www.youtube.com/watch?v=_21TGix4Sxg&amp;t=71s\">https://www.youtube.com/watch?v=_21TGix4Sxg&amp;t=71s</a></p>\n<p>\n              2- How to Make an ATS-Friendly Resume in MS Word _ ATS Resume\n              Template _ -Free Download:\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=6HPs3i2Nth0\">https://www.youtube.com/watch?v=6HPs3i2Nth0</a></p>\n<p>3- Resume Writing in Canada – With Example</p>\n<p><a href=\"https://www.youtube.com/watch?v=Y9Pyv-GWbmg&amp;t=659s\">https://www.youtube.com/watch?v=Y9Pyv-GWbmg&amp;t=659s</a></p>\n<p>4- Points to avoid in a Resume for newcomers.</p>\n<p>\n              The following video explains what points to avoid in a resume: 12\n              Resume Mistakes Newcomers Make in Canada (Real Examples)\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=7EnVcURetyk\">https://www.youtube.com/watch?v=7EnVcURetyk</a></p>"
+        },
+        {
+          "id": "module-2-lesson-2",
+          "number": 2,
+          "title": "Writing a Cover Letter",
+          "html": "<p>\n              A cover letter explains why you are a good match for the job. It\n              should be customized for each position.\n            </p>\n<p>What Is the Function of a Cover Letter?</p>\n<p>\n              A cover letter is a short, professional letter sent with your\n              resume. Its main function is to introduce you to the employer and\n              explain why you are a good match for the job.\n            </p>\n<p>In the Canadian Job Market</p>\n<p>\n              Cover letters are usually 1 page, written in clear, simple\n              English, and customized for each job. Polite, confident, and\n              professional (not emotional)\n            </p>\n<p>Main Functions of a Cover Letter</p>\n<p>1- Introduces You Personally</p>\n<p>2- Explains Your Fit for the Job</p>\n<p>3- Clarifies Gaps or Career Changes</p>\n<p>\n              4- Show how international experience applies to a Canadian role\n            </p>\n<p>\n              This is especially helpful for newcomers and recent graduates.\n            </p>\n<p>\n              5- Shows Communication Skills by: Written English skills, and a\n              professional tone.\n            </p>\n<p>6- 6-Demonstrates Effort &amp; Professionalism</p>\n<p>\n              Submitting a cover letter shows: You took the time to apply\n              seriously, you customized your application, and you respect\n              Canadian workplace culture Many employers see this as a sign of a\n              strong work ethic.\n            </p>\n<p>Benefits of a Cover Letter</p>\n<p>1- Increases Interview Chances</p>\n<p>\n              A strong cover letter can: Make your application stand out and\n              encourage employers to read your resume carefully\n            </p>\n<p>2- Helps You Compete Fairly</p>\n<p>\n              It helps candidates who have limited Canadian experience and are\n              changing Careers, as well as, are you re-entering the workforce?\n            </p>\n<p>3. Allows You to Control Your Story</p>\n<p>You choose:</p>\n<p>• What the employer notices first</p>\n<p>• How your experience is explained</p>\n<p>• How your strengths are framed</p>\n<p>4. Builds a Professional First Impression</p>\n<p>\n              The cover letter is often the first document read. A good first\n              impression can strongly influence hiring decisions.\n            </p>\n<p>How to Write a Cover Letter</p>\n<p>Please click on these links:</p>\n<p>How to write a cover letter</p>\n<p><a href=\"https://www.youtube.com/watch?v=hrZSfMly_Ck\">https://www.youtube.com/watch?v=hrZSfMly_Ck</a></p>\n<p>\n              How to write a cover letter that gets you hired! (Best job\n              application cover letter example!)\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=qEDfNcUmRMA&amp;t=29s\">https://www.youtube.com/watch?v=qEDfNcUmRMA&amp;t=29s</a></p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m2-l2.png\"/>"
+        },
+        {
+          "id": "module-2-lesson-3",
+          "number": 3,
+          "title": "Job Search Tools in Canada",
+          "html": "<p>\n              Job seekers in Canada use platforms like Job Bank, Indeed, and\n              LinkedIn. Many jobs are found through networking. How to Search\n              for Jobs in Canada? Several important and serious websites offer\n              job opportunities in the Canadian labour market, and most business\n              owners rely on them to find the right employee to fill vacancies.\n            </p>\n<p>\n              *For more information about these websites, please click on this\n              link:\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=RdK6sk2E8NU&amp;t=478s\">https://www.youtube.com/watch?v=RdK6sk2E8NU&amp;t=478s</a></p>\n<p><a href=\"https://www.youtube.com/watch?v=sXzwKJTrRaY\">https://www.youtube.com/watch?v=sXzwKJTrRaY</a></p>"
+        },
+        {
+          "id": "module-2-lesson-4",
+          "number": 4,
+          "title": "Networking & the Hidden Job Market",
+          "html": "<p>\n              Networking means building professional relationships. Many jobs\n              are never advertised online because employers prefer referrals.\n              Building professional relationships increases your visibility,\n              credibility, and access to opportunities you’ll never see online.\n            </p>\n<p>How to build a successful professional Network?</p>\n<p>1-Be Clear About Your Goal</p>\n<p>• Know why you are networking.</p>\n<p>• Are you exploring a career field?</p>\n<p>• Looking for a job or internship?</p>\n<p>• Seeking mentorship or advice?</p>\n<p>\n              * Clear goals help you explain who you are and what you’re looking\n              for—without sounding like you’re “just asking for a job.”\n            </p>\n<p>2. Focus on Relationships, Not Transactions</p>\n<p>• Networking is not about collecting contacts.</p>\n<p>It’s about building genuine, long-term relationships.</p>\n<p>• Be curious about people</p>\n<p>• Listen more than you speak</p>\n<p>• Show real interest in their experiences</p>\n<p>* People help people they trust and like.</p>\n<p>3. Give Before You Ask</p>\n<p>• Strong networks are built on mutual value.</p>\n<p>• You can offer:</p>\n<p>• Help or support</p>\n<p>• Useful information or resources</p>\n<p>• Encouragement or appreciation</p>\n<p>\n              *Even small things matter—like sharing an article or making an\n              introduction.\n            </p>\n<p>4. Use Multiple Networking Channels</p>\n<p>• Don’t rely on just one method.</p>\n<p>• Professional events &amp; workshops</p>\n<p>• LinkedIn and online communities</p>\n<p>• Alumni networks</p>\n<p>• Volunteering</p>\n<p>• Informational interviews</p>\n<p>\n              * Many jobs are filled because someone says: “I know a person who\n              would be great for this.”\n            </p>\n<p>5. Practice Your Introduction (Elevator Pitch)</p>\n<p>• Be ready to explain:</p>\n<p>• Who you are</p>\n<p>• What you do or are learning</p>\n<p>• What interests you professionally</p>\n<p>*Keep it short and natural—not memorized.</p>\n<p>6. Follow Up and Stay Connected</p>\n<p>• This is where many people fail.</p>\n<p>• Send a thank-you message</p>\n<p>• Mention something specific from the conversation</p>\n<p>• Check in occasionally (not only when you need help)</p>\n<p>*Consistency builds trust.</p>\n<p>7. Be Authentic and Professional</p>\n<p>• You don’t need to impress—just be yourself, professionally.</p>\n<p>• Be honest about your skills and goals</p>\n<p>• Be respectful of people’s time</p>\n<p>• Keep promises and show reliability</p>\n<p>*Your reputation travels through networks.</p>\n<p>8. Be Patient and Persistent</p>\n<p>• Networking is a long-term investment.</p>\n<p>• Results don’t always come immediately</p>\n<p>• One conversation can lead to opportunities months later</p>\n<p>*Many unadvertised jobs come from timing + trust.</p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m2-l4.jpg\"/>"
+        }
+      ]
+    },
+    {
+      "id": "module-3",
+      "title": "Module 3: Interview Skills & Employment Communication",
+      "subtitle": "Interview Skills & Employment Communication",
+      "outcomes": [
+        "Prepare confidently for job interviews",
+        "Answer behavioural interview questions using the STAR method",
+        "Demonstrate professional communication and body language",
+        "Understand salary discussions and next steps after interviews"
+      ],
+      "lessons": [
+        {
+          "id": "module-3-lesson-1",
+          "number": 1,
+          "title": "Types of Job Interviews",
+          "html": "<p>\n              Employers may use phone, video, panel, or in-person interviews.\n              Understanding the format helps you prepare effectively.\n            </p>\n<p>\n              To learn more about the characteristics of the different types of\n              job interviews, please watch the following videos:\n            </p>\n<p>1-First Job interview video:</p>\n<p><a href=\"https://www.youtube.com/watch?v=GmzYrjAsDng&amp;t=9s\">https://www.youtube.com/watch?v=GmzYrjAsDng&amp;t=9s</a></p>\n<p>2-Tell me about yourself video:</p>\n<p><a href=\"https://www.youtube.com/watch?v=D_1gOFtB_R0&amp;t=2s\">https://www.youtube.com/watch?v=D_1gOFtB_R0&amp;t=2s</a></p>\n<p>3-For the Online job Interviews, please watch this video:</p>\n<p><a href=\"https://www.youtube.com/watch?v=mDr1j6LnSqo&amp;t=14s\">https://www.youtube.com/watch?v=mDr1j6LnSqo&amp;t=14s</a></p>\n<p>4-TOP 21 QUICK ANSWERS TO JOB INTERVIEW QUESTIONS!</p>\n<p><a href=\"https://www.youtube.com/watch?v=fr-mwiyhZAo&amp;t=15s\">https://www.youtube.com/watch?v=fr-mwiyhZAo&amp;t=15s</a></p>"
+        },
+        {
+          "id": "module-3-lesson-2",
+          "number": 2,
+          "title": "Behavioural Interview Questions (STAR Method)",
+          "html": "<p>\n              Behavioural questions ask about past experiences. The STAR method\n              helps you structure clear answers: Situation, Task, Action,\n              Result.\n            </p>\n<p><strong>STAR Method Explained (With Key Highlights):</strong></p>\n<p>S – Situation: Briefly describe the context or background</p>\n<p>Answer:</p>\n<p>• Where did it happen?</p>\n<p>• When did it happen?</p>\n<p>\n              * Keep it short and relevant. And set the scene clearly (no\n              unnecessary details)\n            </p>\n<p>T – Task: Explain your responsibility or role</p>\n<p>Answer:</p>\n<p>• What were you expected to do?</p>\n<p>• What was the goal or challenge?</p>\n<p>\n              *Focus on your role, not the team’s role. And clarify expectations\n              and objectives\n            </p>\n<p>A – Action: Describe exactly what YOU did</p>\n<p>Answer:</p>\n<p>• What steps did you take?</p>\n<p>• How did you approach the problem?</p>\n<p>*Use “I”, not “we.”</p>\n<p>\n              *Highlight skills such as: (Communication, Initiative, Leadership,\n              Time management, and Critical thinking). This is the most\n              important part\n            </p>\n<p>R – Result: Explain the outcome</p>\n<p>Answer:</p>\n<p>• What happened because of your actions?</p>\n<p>• What did you achieve or learn?</p>\n<p>\n              *Use numbers or results if possible (%, time saved, feedback\n              received)\n            </p>\n<p>*Mention positive impact</p>\n<p>*If the result wasn’t perfect, show learning and improvement.</p>\n<p>⭐ Best Practices for Using STAR in Interviews:</p>\n<p>• Prepare 5–7 STAR stories before the interview</p>\n<p>• Adapt one story to answer multiple questions</p>\n<p>• Practice answers to stay within 1–2 minutes</p>\n<p>• Be honest and specific</p>\n<p>• Stay calm and structured</p>\n<p>⭐ Common Skills Assessed Using STAR:</p>\n<p>• Teamwork</p>\n<p>• Conflict resolution</p>\n<p>• Leadership</p>\n<p>• Customer service</p>\n<p>• Time management</p>\n<p>• Adaptability</p>\n<p>• Decision-making</p>\n<p>• Problem-solving</p>\n<p>🚫 Common Mistakes to Avoid</p>\n<p>❌ Talking too long about the Situation</p>\n<p>❌ Forgetting to explain the Result</p>\n<p>❌ Saying “we” instead of “I”</p>\n<p>❌ Giving hypothetical examples</p>\n<p>❌ Not connecting actions to outcomes</p>\n<p>⭐ Bonus Tip for Students &amp; Job Seekers</p>\n<p>If you don’t have work experience, use:</p>\n<p>• School projects</p>\n<p>• Volunteering</p>\n<p>• Internships</p>\n<p>• Group assignments</p>\n<p>• Personal challenges</p>"
+        },
+        {
+          "id": "module-3-lesson-3",
+          "number": 3,
+          "title": "Professional Communication & Body Language",
+          "html": "<p>\n              Employers pay attention to eye contact, posture, tone of voice,\n              and active listening.\n            </p>\n<p><strong>Why Body Language Matters???</strong></p>\n<p>55% of first impressions are influenced by body language</p>\n<p>Interviewers assess:</p>\n<p>• Confidence</p>\n<p>• Professionalism</p>\n<p>• Communication skills</p>\n<p>• Cultural fit</p>\n<p>Your body language can support or weaken your verbal answers</p>\n<p>⭐ Before the Interview</p>\n<p>• First Impression (First 30 Seconds)</p>\n<p>• Walk in confidently</p>\n<p>• Stand tall, shoulders relaxed</p>\n<p>• Smile naturally</p>\n<p>• Offer a firm (not crushing) handshake if appropriate</p>\n<p>*Match the interviewer’s energy and professionalism</p>\n<p>⭐ During the Interview</p>\n<p>1-Posture</p>\n<p>• Sit upright, back straight</p>\n<p>• Lean slightly forward to show interest</p>\n<p>• Keep both feet flat on the floor</p>\n<p>• Avoid slouching or leaning back too much</p>\n<p>✔ Shows confidence and engagement</p>\n<p>2- Eye Contact</p>\n<p>• Maintain eye contact 60–70% of the time</p>\n<p>• Look at the interviewer while listening and speaking</p>\n<p>If multiple interviewers:</p>\n<p>• Make eye contact with the person who asked the question</p>\n<p>• Briefly include others when answering</p>\n<p>❌ Avoid staring or looking down constantly</p>\n<p>3- Facial Expressions</p>\n<p>Smile when greeting and occasionally during conversation</p>\n<p>Keep expressions natural and positive</p>\n<p>Nod gently to show understanding</p>\n<p>✔ Shows friendliness and approachability</p>\n<p>4- Hand Gestures</p>\n<p>• Use natural, open gestures</p>\n<p>• Keep your hands visible (rest them on the table or lap)</p>\n<p>• Use gestures to emphasize key points</p>\n<p>❌ Avoid pointing, crossing arms, or hiding hands</p>\n<p>5- Hand &amp; Arm Position</p>\n<p>Arms relaxed, not crossed</p>\n<p>Palms open when speaking</p>\n<p>Avoid fidgeting with pens, rings, or clothes</p>\n<p>✔ Shows openness and honesty</p>\n<p>6-Head Movements</p>\n<p>• Light nodding shows active listening</p>\n<p>• Avoid excessive head movement</p>\n<p>⭐ Voice &amp; Body Coordination</p>\n<p>• Speak clearly and at a steady pace</p>\n<p>• Pause briefly before answering</p>\n<p>• Match confident posture with calm speech</p>\n<p>✔ Body language + voice = credibility</p>\n<p>🚫 What to Avoid</p>\n<p>• Slouching</p>\n<p>• Crossing arms or legs tightly</p>\n<p>• Excessive movement or fidgeting</p>\n<p>• Looking at your phone or watch</p>\n<p>• Overly rigid posture</p>\n<p>• Touching face, hair, or mouth repeatedly</p>\n<p>⭐ Online / Video Interview Body Language Tips</p>\n<p>• Sit at eye level with the camera</p>\n<p>• Look into the camera when speaking</p>\n<p>• Good lighting on your face</p>\n<p>• Keep shoulders visible</p>\n<p>• Avoid swaying or spinning chair</p>\n<p>\n              **Please click on the following link to watch an example of a\n              video job interview:\n            </p>\n<p>⭐ Cultural Awareness (Very Important)</p>\n<p>• Eye contact expectations vary by culture</p>\n<p>• Handshakes may differ or be optional</p>\n<p>• Personal space norms vary</p>\n<p>• ✔ When unsure, observe and adapt</p>\n<p>⭐ Simple Rule to Remember</p>\n<p>(Open posture + eye contact + calm movements = confidence)</p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m3-l3.png\"/>"
+        },
+        {
+          "id": "module-3-lesson-4",
+          "number": 4,
+          "title": "Salary Discussion & Follow-Up",
+          "html": "<p>\n              Salary discussions usually happen after an interview. It is\n              acceptable to ask questions and take time to respond.\n            </p>\n<p><strong>Exact questions you can ask about salary:</strong></p>\n<p>1- When the employer has NOT mentioned salary yet</p>\n<p>Use polite, professional wording:</p>\n<p>• “Could you share the salary range budgeted for this role?”</p>\n<p>\n              • “May I ask if there is an established compensation range for\n              this position?”\n            </p>\n<p>\n              • “At what stage do you usually discuss compensation and\n              benefits?”\n            </p>\n<p>*This sounds mature and professional, not money-focused.</p>\n<p>2- When the employer asks YOU about salary expectations</p>\n<p>Never give one number — use a range:</p>\n<p>\n              • “Based on my research and experience, I’m looking for a range of\n              $___ to $___, but I’m open depending on the full compensation\n              package.”\n            </p>\n<p>\n              • “I’m flexible and would like to understand the responsibilities\n              and growth opportunities before finalizing a number.”\n            </p>\n<p>3- Questions about the FULL compensation (very smart to ask)</p>\n<p>These show you think long-term:</p>\n<p>\n              • “Could you tell me what benefits are included in the\n              compensation package?”\n            </p>\n<p>• “Is there a bonus structure or performance-based increase?”</p>\n<p>• “How often are salaries reviewed?</p>\n<p>🚫 QUESTIONS YOU SHOULD NOT ASK</p>\n<p>Avoid these — they hurt your image:</p>\n<p>❌ “How much will you pay me?”</p>\n<p>❌ “Is the salary negotiable?” (too direct)</p>\n<p>❌ “I really need at least $___”</p>\n<p>❌ Asking salary in the first 5 minutes</p>\n<p>*IF YOU DIDN’T ASK IN THE INTERVIEW</p>\n<p>You can ask later (very normal):</p>\n<p>Email example:</p>\n<p>\n              “Thank you again for the interview. I’m very interested in the\n              role and wanted to ask if you could share the salary range and\n              benefits for the position.”\n            </p>"
+        }
+      ]
+    },
+    {
+      "id": "module-4",
+      "title": "Module 4: Workplace Soft Skills",
+      "subtitle": "Workplace Soft Skills",
+      "outcomes": [
+        "Communicate clearly and professionally at work",
+        "Work effectively in a team",
+        "Manage time and workplace priorities",
+        "Solve problems and handle conflict professionally"
+      ],
+      "lessons": [
+        {
+          "id": "module-4-lesson-1",
+          "number": 1,
+          "title": "Workplace Communication",
+          "html": "<p>\n              Effective workplace communication includes listening, speaking\n              clearly, and using respectful language with colleagues and\n              supervisors.\n            </p>\n<p>\n<strong>Key Highlight Points of the Effective Communication Skills at\n                Work:</strong>\n</p>\n<p>1️-Clear &amp; Concise Communication</p>\n<p>• Express ideas and directly</p>\n<p>• Avoid jargon and unnecessary details</p>\n<p>• Focus on the main message and desired outcome</p>\n<p>2️-Active Listening</p>\n<p>• Give full attention (no interrupting or multitasking)</p>\n<p>• Ask clarifying questions</p>\n<p>• Paraphrase to confirm understanding</p>\n<p>3️-Professional Verbal Communication</p>\n<p>• Use respectful, positive language</p>\n<p>• Adjust tone based on audience (manager, colleague, client)</p>\n<p>• Speak confidently, not aggressively</p>\n<p>4️-Non-Verbal Communication Awareness</p>\n<p>• Maintain appropriate eye contact</p>\n<p>• Use open body language</p>\n<p>• Be aware that facial expressions and posture send messages</p>\n<p>5️-Written Communication Skills</p>\n<p>• Write clear, well-structured emails and messages</p>\n<p>• Use professional formatting and correct grammar</p>\n<p>• Keep emails brief and action-oriented</p>\n<p>6️-Emotional Intelligence in Communication</p>\n<p>• Manage emotions, especially in stressful situations</p>\n<p>• Show empathy and respect for others’ perspectives</p>\n<p>• Respond thoughtfully, not reactively</p>\n<p>7️-Giving &amp; Receiving Feedback</p>\n<p>\n              • Give feedback that is specific, constructive, and respectful\n            </p>\n<p>• Be open to feedback without becoming defensive</p>\n<p>• Focus on improvement, not blame</p>\n<p>8️-Communication in Teamwork</p>\n<p>• Share information openly</p>\n<p>• Respect different communication styles</p>\n<p>• Encourage participation and collaboration</p>\n<p>9️-Conflict Communication Skills</p>\n<p>• Address issues early and calmly</p>\n<p>• Focus on the problem, not the person</p>\n<p>• Seek solutions that benefit everyone</p>\n<p>10-Adaptability &amp; Cultural Awareness</p>\n<p>Adjust communication for diverse cultures and backgrounds</p>\n<p>Be mindful of language barriers</p>\n<p>\n              *Please click on this link to watch a video explaining all the\n              points mentioned above:\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=QGHBq5OEsBM\">https://www.youtube.com/watch?v=QGHBq5OEsBM</a></p>\n<p>\n              Please see the image below to learn about body language to avoid\n              at work.\n            </p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m4-l1.png\"/>"
+        },
+        {
+          "id": "module-4-lesson-2",
+          "number": 2,
+          "title": "Teamwork & Collaboration",
+          "html": "<p>\n              Most workplaces require teamwork. Being respectful, flexible, and\n              cooperative helps teams succeed.\n            </p>\n<p><strong>Key Points of Teamwork &amp; Collaboration:</strong></p>\n<p>\n              1- Clear communication: Share information openly and listen to\n              others\n            </p>\n<p>\n              2- Shared goals: Everyone understands and works toward the same\n              objective\n            </p>\n<p>\n              3- Respect &amp; trust: Value different opinions, skills, and\n              backgrounds\n            </p>\n<p>\n              4- Accountability: Take responsibility for your role and deliver\n              on time\n            </p>\n<p>5- Cooperation: Support teammates and help when needed</p>\n<p>\n              These five points cover 90% of what employers expect when they say\n              “team player.”\n            </p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m4-l2.jpg\"/>"
+        },
+        {
+          "id": "module-4-lesson-3",
+          "number": 3,
+          "title": "Time Management & Organization",
+          "html": "<p>\n              Time management means planning tasks, meeting deadlines, and\n              balancing multiple responsibilities at work.\n            </p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m4-l3.jpg\"/>\n<p><strong>Key Points: Time Management &amp; Organization</strong></p>\n<p>1- Prioritization: Focus on the most important tasks first</p>\n<p>2- Planning: Organize tasks and set realistic schedules</p>\n<p>3- Meeting deadlines: Complete work on time and reliably</p>\n<p>\n              4- Organization: Keep workspaces, files, and tasks well-ordered\n            </p>\n<p>\n              5- Focus &amp; efficiency: Minimize distractions and use time wisely.\n            </p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m4-l30.jpg\"/>"
+        },
+        {
+          "id": "module-4-lesson-4",
+          "number": 4,
+          "title": "Problem Solving & Conflict Management",
+          "html": "<p>\n              Problems and conflicts happen in every workplace. Handling them\n              calmly and professionally is an important soft skill.\n            </p>\n<p><strong>Key Principles of Conflict Management:</strong></p>\n<p>\n              1- Act Early: Address issues immediately to prevent escalation.\n            </p>\n<p>2- Neutral Setting: Meet in a private, neutral location.</p>\n<p>\n              3- Stay Calm: Keep emotions in check and avoid personal attacks.\n            </p>\n<p>\n              4- Focus on the Problem: Distinguish between personal disputes and\n              professional issues.\n            </p>\n<p><strong>Steps for Effective Resolution</strong></p>\n<p>\n              1- Identify the Issue: Clearly define the source of the conflict\n              and the parties involved.\n            </p>\n<p>\n              2- Open Dialogue: Facilitate a conversation where each person\n              expresses their perspective without interruption.\n            </p>\n<p>\n              3- Active Listening: Listen to understand the underlying needs and\n              interests, not just to react.\n            </p>\n<p>\n              4- Find Common Ground: Identify areas of agreement and shared\n              goals.\n            </p>\n<p>\n              5- Brainstorm Solutions: Collaborate on potential solutions that\n              address the root cause.\n            </p>\n<p>\n              6- Implement &amp; Follow Up: Agree on a plan, define\n              responsibilities, and monitor the situation to ensure the\n              resolution works.\n            </p>\n<p>For more information, please click on these links:</p>\n<p><a href=\"https://www.youtube.com/watch?v=D--X9-726bk\">https://www.youtube.com/watch?v=D--X9-726bk</a></p>\n<p><a href=\"https://www.youtube.com/watch?v=AnIk41p9QnA\">https://www.youtube.com/watch?v=AnIk41p9QnA</a></p>"
+        }
+      ]
+    },
+    {
+      "id": "module-5",
+      "title": "Module 5: Digital & Workplace Technology Skills",
+      "subtitle": "Digital & Workplace Technology Skills",
+      "outcomes": [
+        "Use basic digital tools confidently in the workplace",
+        "Write clear and professional emails",
+        "Create simple professional documents and presentations",
+        "Use common remote work and AI tools responsibly"
+      ],
+      "lessons": [
+        {
+          "id": "module-5-lesson-1",
+          "number": 1,
+          "title": "Essential Computer & Digital Skills",
+          "html": "<p>\n              Most jobs in Canada require basic computer skills. This includes\n              using a keyboard and mouse, creating folders, saving files, and\n              using common software programs. (Computer Hardware basic course,\n              Operating system course, and MS Office 365 version. In addition to\n              many service programs (Zoom, Microsoft Teams, file compression,\n              and antivirus software)\n            </p>\n<p>\n              Basic File Organization: The Best Way to Manage Files and Folders\n              (ABC Method):\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=uSnpAnhV2Jo\">https://www.youtube.com/watch?v=uSnpAnhV2Jo</a></p>\n<p><a href=\"https://www.youtube.com/watch?v=gI0eR61cKug\">https://www.youtube.com/watch?v=gI0eR61cKug</a></p>"
+        },
+        {
+          "id": "module-5-lesson-2",
+          "number": 2,
+          "title": "Professional Email Communication",
+          "html": "<p>\n              Email is a primary communication tool in Canadian workplaces.\n              Professional emails are clear, polite, and well-structured.\n            </p>\n<p><strong>Professional Email Structure:</strong></p>\n<p>• Subject: Job Application</p>\n<p>• Administrative Assistant Greeting: Dear Hiring Manager,</p>\n<p>• Body: I am writing to apply for the position...</p>\n<p>• Closing: Kind regards,</p>\n<p>• Signature: Your Name</p>"
+        },
+        {
+          "id": "module-5-lesson-3",
+          "number": 3,
+          "title": "Workplace Software & Presentations",
+          "html": "<p>\n              Common workplace software includes Microsoft Word, Excel,\n              PowerPoint, and Google Docs. You do not need advanced skills to\n              start.\n            </p>\n<p>You need.</p>\n<p>\n              Watch the video below to learn essential computer skills everyone\n              should know. - Basic computer skills for all users\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=rXNy8M3uq8I\">https://www.youtube.com/watch?v=rXNy8M3uq8I</a></p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m5-l3.png\"/>"
+        },
+        {
+          "id": "module-5-lesson-4",
+          "number": 4,
+          "title": "Remote Work Tools & AI Basics",
+          "html": "<p>\n              Many workplaces use remote tools such as Zoom or Microsoft Teams.\n              AI tools can help with writing, organization, and learning, but\n              should be used ethically.\n            </p>\n<p><strong>Responsible AI Use</strong></p>\n<p>• Use AI to draft ideas</p>\n<p>• Always review and edit.</p>\n<p>• Do not submit AI work without understanding it</p>\n<p><strong>• What you need for a hybrid work policy.</strong></p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m5-l4.png\"/>"
+        }
+      ]
+    },
+    {
+      "id": "module-6",
+      "title": "Module 6: Workplace Culture, Rights & Wellbeing",
+      "subtitle": "Workplace Culture, Rights & Wellbeing",
+      "outcomes": [
+        "Understand Canadian and Ontario workplace culture.",
+        "Know your basic rights and responsibilities at work.",
+        "Recognize respectful and inclusive workplace behavior.",
+        "Apply strategies to manage stress and well-being at work."
+      ],
+      "lessons": [
+        {
+          "id": "module-6-lesson-1",
+          "number": 1,
+          "title": "Workplace Culture in Canada",
+          "html": "<p>\n              Workplace culture refers to the shared values, behaviors, and\n              expectations in a work environment.\n            </p>\n<p>\n              In Ontario and across Canada, employers value professionalism,\n              punctuality, respect, teamwork, and clear communication.\n            </p>\n<p>\n              Understanding workplace culture helps employees fit in, build\n              positive relationships, and succeed in their roles.\n            </p>\n<p><strong>Key expectations include:</strong></p>\n<p>• Arriving on time and being reliable.</p>\n<p>• Communicating politely and clearly.</p>\n<p>• Respecting diversity and different opinions.</p>\n<p>• Following workplace rules and policies</p>\n<p>*Must Watch! Canadian workplace culture and interview tips 🇨🇦</p>\n<p><a href=\"https://www.youtube.com/watch?v=bNpqHsFE2X0\">https://www.youtube.com/watch?v=bNpqHsFE2X0</a></p>\n<p><a href=\"https://www.youtube.com/watch?v=EsVV80y2fHg\">https://www.youtube.com/watch?v=EsVV80y2fHg</a></p>"
+        },
+        {
+          "id": "module-6-lesson-2",
+          "number": 2,
+          "title": "Employee Rights & Responsibilities (Ontario)",
+          "html": "<p>\n              Employment standards and human rights laws protect employees in\n              Ontario. These laws ensure fair treatment at work and set minimum\n              standards that employers must follow.\n            </p>\n<p>\n              Employees also have responsibilities to perform their duties\n              professionally and safely.\n            </p>\n<p><strong>Employee rights include:</strong></p>\n<p>• Fair wages and regular pay</p>\n<p>• Safe and healthy work environments</p>\n<p>• Protection from discrimination and harassment</p>\n<p><strong>Employee responsibilities include:</strong></p>\n<p>• Completing job duties to the best of your ability.</p>\n<p>• Following workplace health and safety rules.</p>\n<p>• Treating coworkers and supervisors with respect</p>"
+        },
+        {
+          "id": "module-6-lesson-3",
+          "number": 3,
+          "title": "Diversity, Equity & Inclusion",
+          "html": "<p>\n              Ontario workplaces are diverse, meaning employees come from many\n              backgrounds, cultures, and identities.\n            </p>\n<p>\n              Diversity recognizes differences, equity ensures fairness and\n              access to opportunities, and inclusion means everyone feels valued\n              and respected.\n            </p>\n<p><strong>Inclusive workplace behaviours include:</strong></p>\n<p>• Listening respectfully to others.</p>\n<p>• Being open to different perspectives.</p>\n<p>• Avoiding discrimination, harassment, or offensive language.</p>"
+        },
+        {
+          "id": "module-6-lesson-4",
+          "number": 4,
+          "title": "Workplace Wellbeing & Stress Management",
+          "html": "<p>\n              Workplace wellbeing focuses on maintaining mental, emotional, and\n              physical health at work. Stress is common but can be managed\n              through healthy strategies and communication.\n            </p>\n<p><strong>Stress management techniques include:</strong></p>\n<p>• Taking short breaks when needed.</p>\n<p>• Asking questions if tasks are unclear.</p>\n<p>• Speaking with a supervisor about concerns.</p>\n<p>• Practicing healthy routines such as sleep and exercise.</p>\n<p>\n              *Must watch! Inclusive workplace behaviours, Workplace well-being\n              and Stress management:\n            </p>\n<p>Inclusive workplace behaviours:</p>\n<p><a href=\"https://www.youtube.com/watch?v=_ZkxjAGlP9Q\">https://www.youtube.com/watch?v=_ZkxjAGlP9Q</a></p>\n<p>Workplace well-being and Stress management:</p>\n<p><a href=\"https://www.youtube.com/watch?v=4TWldzk6E-g\">https://www.youtube.com/watch?v=4TWldzk6E-g</a></p>"
+        }
+      ]
+    },
+    {
+      "id": "module-7",
+      "title": "Module 7: Career Development & Future Planning",
+      "subtitle": "Career Development & Future Planning",
+      "outcomes": [
+        "Understand career development and career growth in Canada.",
+        "Create clear short-term and long-term career goals.",
+        "Learn how to build professional networks in Canada.",
+        "Identify learning, training, and upskilling opportunities."
+      ],
+      "lessons": [
+        {
+          "id": "module-7-lesson-1",
+          "number": 1,
+          "title": "Understanding Career Development",
+          "html": "<p>\n              Career development is the ongoing process of learning, gaining\n              experience, and making choices that help you grow professionally\n              over time.\n            </p>\n<p>\n              In Canada, career paths are often flexible. Many people change\n              jobs, industries, or roles as they gain new skills or discover new\n              interests.\n            </p>\n<p><strong>Career growth often follows stages such as:</strong></p>\n<p>• Entry-level positions where you build basic skills.</p>\n<p>• Experienced roles with more responsibility.</p>\n<p>• Senior or leadership roles, or specialized positions.</p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m7-l1.jpg\"/>"
+        },
+        {
+          "id": "module-7-lesson-2",
+          "number": 2,
+          "title": "Short-Term & Long-Term Career Planning",
+          "html": "<p>\n              Career planning helps you set clear goals and take practical steps\n              toward achieving them. Short-term goals usually focus on what you\n              want to achieve in the next 6–12 months, such as finding a job or\n              gaining Canadian work experience.\n            </p>\n<p>\n              Long-term goals focus on where you want to be in 3–5 years, such\n              as moving into a senior role, changing careers, or gaining\n              specialization.\n            </p>\n<p>\n              Having both short-term and long-term goals helps you stay\n              motivated and focused.\n            </p>\n<p>\n              To know more about long-term and Short-Term Goals, please watch\n              this video:\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=TAWWlUDdTp4\">https://www.youtube.com/watch?v=TAWWlUDdTp4</a></p>"
+        },
+        {
+          "id": "module-7-lesson-3",
+          "number": 3,
+          "title": "Networking & Building Professional Relationships",
+          "html": "<p>\n              Networking means building and maintaining professional\n              relationships with people in your field. In Canada, many job\n              opportunities are found through connections rather than online job\n              postings.\n            </p>\n<p><strong>Effective networking methods include:</strong></p>\n<p>• Using LinkedIn to connect with professionals.</p>\n<p>• Attending community or industry events.</p>\n<p>• Volunteering to gain experience and contacts.</p>\n<p>• Conducting informational interviews to learn about careers</p>\n<p>\n              Strong professional relationships can lead to job referrals,\n              mentorship, and career advice.\n            </p>"
+        },
+        {
+          "id": "module-7-lesson-4",
+          "number": 4,
+          "title": "Lifelong Learning & Upskilling",
+          "html": "<p>\n              Lifelong learning means continually learning and improving your\n              skills throughout your career. Upskilling helps you stay\n              competitive in the job market and adapt to industry changes.\n            </p>\n<img alt=\"img\" class=\"course-image\" src=\"https://amal-sarsar.github.io/Job-Readiness-course/m7-l4.jpg\"/>"
+        }
+      ]
+    },
+    {
+      "id": "module-8",
+      "title": "Module 8: Practical Application & Capstone",
+      "subtitle": "Practical Application & Capstone",
+      "outcomes": [
+        "Apply job readiness skills in real-world job search\n                situations.",
+        "Prepare for interviews using practical techniques.",
+        "Finalize a professional résumé and cover letter.",
+        "Create a clear personal employment action plan."
+      ],
+      "lessons": [
+        {
+          "id": "module-8-lesson-1",
+          "number": 1,
+          "title": "Applying Skills in Real-Life Situations",
+          "html": "<p>\n              This lesson focuses on putting your learning into action. Job\n              readiness skills are most effective when they are applied in real\n              situations such as job applications, interviews, and workplace\n              communication.\n            </p>\n<p><strong>Real-life applications include:</strong></p>\n<p>• Applying for jobs online or in person.</p>\n<p>• Preparing answers for interviews.</p>\n<p>• Communicating professionally with employers.</p>\n<p>• Following up after interviews or applications.</p>\n<p>\n              Practicing these skills helps build confidence and improves your\n              chances of success.\n            </p>\n<p>\n              Watch this video to learn more about life skills everyone should\n              know:\n            </p>\n<p><a href=\"https://www.youtube.com/watch?v=sids6PjkC1I\">https://www.youtube.com/watch?v=sids6PjkC1I</a></p>"
+        },
+        {
+          "id": "module-8-lesson-2",
+          "number": 2,
+          "title": "Mock Interview & Self-Reflection",
+          "html": "<p>\n              • Mock interviews are practice interviews that help you prepare\n              for real ones. They allow you to practice answering questions\n              clearly and confidently.\n            </p>\n<p>You can practice:</p>\n<p>• Alone, by speaking answers out loud.</p>\n<p>• With a friend or mentor.</p>\n<p>• By recording yourself and reviewing your responses.</p>\n<p>\n              Using the STAR method helps structure your answers.\n              Self-reflection after practice helps you identify strengths and\n              areas for improvement.\n            </p>\n<p>Watch this video to learn what self-Reflection is.</p>\n<p><a href=\"https://www.youtube.com/watch?v=ABDpAhYektI\">https://www.youtube.com/watch?v=ABDpAhYektI</a></p>"
+        },
+        {
+          "id": "module-8-lesson-3",
+          "number": 3,
+          "title": "Finalizing Résumé & Cover Letter",
+          "html": "<p>\n              Before applying for jobs, it is important to review and finalize\n              your résumé and cover letter. These documents should be clear,\n              accurate, and customized for each job.\n            </p>\n<p><strong>Final checks include:</strong></p>\n<p>• Correct contact information.</p>\n<p>• Clear job titles, dates, and responsibilities.</p>\n<p>• No spelling or grammar errors.</p>\n<p>• Content tailored to the job posting.</p>\n<p>\n              Well-prepared documents create a strong first impression with\n              employers.\n            </p>"
+        },
+        {
+          "id": "module-8-lesson-4",
+          "number": 4,
+          "title": "Creating Your Employment Action Plan",
+          "html": "<p>\n              An employment action plan helps you stay organized and focused\n              after completing the program. It outlines your goals, the steps\n              you will take, and timelines to keep you accountable.\n            </p>\n<p><strong>Action plan goals include:</strong></p>\n<p>• Applying to a certain number of jobs each week.</p>\n<p>• Improving skills through courses or training.</p>\n<p>• Expanding your professional network.</p>\n<p>\n              A clear action plan increases motivation and helps turn goals into\n              results.\n            </p>"
+        },
+        {
+          "id": "module-8-lesson-5",
+          "number": 5,
+          "title": "module-8-lesson-5",
+          "html": "<p>\n              You have completed the Pathway to Employment – Job Readiness &amp;\n              Graduate Employability Program.\n            </p>\n<p>You are now ready to:</p>\n<p>- Apply your job readiness skills</p>\n<p>- Continue learning and improving</p>\n<p>- Move forward confidently in your career journey</p>\n<p>The end</p>\n<p>A.S</p>"
+        }
+      ]
+    }
+  ]
+}
