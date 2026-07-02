@@ -243,7 +243,7 @@ class _MainShellState extends State<MainShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
+      extendBody: false, // keep page content above the floating nav (don't hide behind it)
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,
@@ -251,16 +251,16 @@ class _MainShellState extends State<MainShell> {
         children: _pages,
       ),
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.only(left: 10, right: 10, bottom: 20),
+        margin: const EdgeInsets.fromLTRB(12, 0, 12, 14),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(22),
           boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20, offset: const Offset(0, 10)),
+            BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 16, offset: const Offset(0, 4)),
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(22),
           child: BottomNavigationBar(
             currentIndex: _currentIndex,
             onTap: _onTabTapped,
@@ -422,7 +422,7 @@ class _HomeTabState extends State<HomeTab> {
             _buildWelcomeHeader(),
             if (_flyers.isNotEmpty) _buildFlyersSlider(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 20, 16, 90),
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -565,20 +565,19 @@ class _HomeTabState extends State<HomeTab> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSectionHeader("Explore", Icons.grid_view_rounded),
-        GridView.count(
-          crossAxisCount: 2,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          mainAxisSpacing: 12,
-          crossAxisSpacing: 12,
-          childAspectRatio: 2.7,
-          children: [
-            _quickTile("Programs", Icons.assignment_rounded, 2),
-            _quickTile("Events", Icons.calendar_month_rounded, 1),
-            _quickTile("Jobs", Icons.work_rounded, 3),
-            _quickTile("Flyers", Icons.campaign_rounded, 4),
-          ],
-        ),
+        // Two simple rows instead of GridView — tiles size to their content, so
+        // there's no phantom empty space that GridView reserves inside a Column.
+        Row(children: [
+          Expanded(child: _quickTile("Programs", Icons.assignment_rounded, 2)),
+          const SizedBox(width: 12),
+          Expanded(child: _quickTile("Events", Icons.calendar_month_rounded, 1)),
+        ]),
+        const SizedBox(height: 12),
+        Row(children: [
+          Expanded(child: _quickTile("Jobs", Icons.work_rounded, 3)),
+          const SizedBox(width: 12),
+          Expanded(child: _quickTile("Flyers", Icons.campaign_rounded, 4)),
+        ]),
       ],
     );
   }
@@ -588,7 +587,7 @@ class _HomeTabState extends State<HomeTab> {
       onTap: () => widget.onNavigateToTab?.call(tabIndex),
       borderRadius: BorderRadius.circular(14),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
