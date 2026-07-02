@@ -426,8 +426,6 @@ class _HomeTabState extends State<HomeTab> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildCoursesIntro(),
-                  const SizedBox(height: 26),
                   _buildQuickAccess(),
                   if (_nextEvent != null) ...[
                     const SizedBox(height: 26),
@@ -439,6 +437,8 @@ class _HomeTabState extends State<HomeTab> {
                     _buildSectionHeader("Latest Opportunities", Icons.work_outline),
                     ..._jobs.take(3).map((j) => _buildJobCard(j)),
                   ],
+                  const SizedBox(height: 26),
+                  _buildCoursesIntro(),
                 ],
               ),
             ),
@@ -485,7 +485,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           const SizedBox(height: 14),
           Text(
-            "Explore our free courses, programs, events and the latest community updates — all in one place.",
+            "Discover a Community That Engages, Empowers, and Heals.",
             style: TextStyle(color: Colors.white.withOpacity(0.9), fontSize: 13.5, height: 1.5),
           ),
         ],
@@ -797,8 +797,12 @@ class _EventsTabState extends State<EventsTab> {
       final res = await http.get(Uri.parse(ApiConfig.EVENTS_API), headers: ApiConfig.AUTH_HEADERS).timeout(_kTimeout);
       if (res.statusCode == 200) {
         final List data = jsonDecode(res.body);
-        final list = data.map((e) => EventItem.fromJson(Map<String, dynamic>.from(e))).toList();
-        list.sort((a, b) => (a.start ?? DateTime.now()).compareTo(b.start ?? DateTime.now()));
+        final now = DateTime.now();
+        final list = data
+            .map((e) => EventItem.fromJson(Map<String, dynamic>.from(e)))
+            .where((ev) => ev.start == null || (ev.end ?? ev.start!).isAfter(now)) // hide past events
+            .toList();
+        list.sort((a, b) => (a.start ?? now).compareTo(b.start ?? now));
         if (mounted) setState(() => _events = list);
       } else { throw 'Server error'; }
     } catch (_) {
@@ -2192,6 +2196,17 @@ class _JRLessonPageState extends State<JRLessonPage> {
 
   void _go(int i) => setState(() => _index = i);
 
+  // Render the lesson as an ordered mix of text (flutter_html) and inline
+  // embedded YouTube players, so learners watch videos without leaving the app.
+  List<Widget> _buildLessonBlocks(JRLesson l) {
+    return _parseLessonBlocks(l.html).map<Widget>((b) {
+      if (b.videoId != null) {
+        return _JRVideoBlock(key: ValueKey('${l.id}-${b.videoId}'), videoId: b.videoId!);
+      }
+      return Html(data: b.html!, style: _jrHtmlStyle(), onLinkTap: (url, _, __) => _jrOpenLink(url));
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final lessons = widget.module.lessons;
@@ -2207,7 +2222,7 @@ class _JRLessonPageState extends State<JRLessonPage> {
           const SizedBox(height: 6),
           const Divider(),
           const SizedBox(height: 6),
-          Html(data: l.html, style: _jrHtmlStyle(), onLinkTap: (url, _, __) => _jrOpenLink(url)),
+          ..._buildLessonBlocks(l),
         ],
       ),
       bottomNavigationBar: SafeArea(
@@ -2234,6 +2249,128 @@ class _JRLessonPageState extends State<JRLessonPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+// Splits lesson HTML into ordered blocks: text (html) and inline YouTube videos.
+class _LessonBlock {
+  final String? html;
+  final String? videoId;
+  _LessonBlock.html(this.html) : videoId = null;
+  _LessonBlock.video(this.videoId) : html = null;
+}
+
+final RegExp _jrYoutubeParaRegex = RegExp(
+  r'<p>\s*<a\b[^>]*href="([^"]*(?:youtube\.com|youtu\.be)[^"]*)"[^>]*>.*?</a>\s*</p>',
+  caseSensitive: false,
+  dotAll: true,
+);
+
+// Robust YouTube id extractor — handles v= in any query position (e.g.
+// watch?app=desktop&v=ID), youtu.be/ID, and /embed/ID. convertUrlToId only
+// matches watch?v=ID at the very start, so it misses many real URLs.
+String? _extractYouTubeId(String rawUrl) {
+  final url = rawUrl.replaceAll('&amp;', '&').trim();
+  final uri = Uri.tryParse(url);
+  if (uri != null) {
+    if (uri.host.contains('youtu.be') && uri.pathSegments.isNotEmpty) {
+      return uri.pathSegments.first;
+    }
+    final v = uri.queryParameters['v'];
+    if (v != null && v.isNotEmpty) return v;
+    final segs = uri.pathSegments;
+    if (segs.length >= 2 && segs[segs.length - 2] == 'embed') return segs.last;
+  }
+  return YoutubePlayer.convertUrlToId(url);
+}
+
+List<_LessonBlock> _parseLessonBlocks(String html) {
+  final blocks = <_LessonBlock>[];
+  int last = 0;
+  for (final m in _jrYoutubeParaRegex.allMatches(html)) {
+    final before = html.substring(last, m.start);
+    if (before.trim().isNotEmpty) blocks.add(_LessonBlock.html(before));
+    final url = (m.group(1) ?? '').replaceAll('&amp;', '&');
+    final id = _extractYouTubeId(url);
+    if (id != null && id.isNotEmpty) {
+      blocks.add(_LessonBlock.video(id));
+    } else {
+      blocks.add(_LessonBlock.html(m.group(0)!)); // fallback: keep original link
+    }
+    last = m.end;
+  }
+  final rest = html.substring(last);
+  if (rest.trim().isNotEmpty) blocks.add(_LessonBlock.html(rest));
+  if (blocks.isEmpty) blocks.add(_LessonBlock.html(html));
+  return blocks;
+}
+
+// Inline YouTube block: shows a thumbnail; on tap loads an embedded player
+// (lazy — no WebView until tapped). Plays inside the app, never leaves it.
+class _JRVideoBlock extends StatefulWidget {
+  final String videoId;
+  const _JRVideoBlock({Key? key, required this.videoId}) : super(key: key);
+  @override
+  State<_JRVideoBlock> createState() => _JRVideoBlockState();
+}
+
+class _JRVideoBlockState extends State<_JRVideoBlock> {
+  YoutubePlayerController? _controller;
+
+  void _play() {
+    setState(() {
+      _controller = YoutubePlayerController(
+        initialVideoId: widget.videoId,
+        flags: const YoutubePlayerFlags(autoPlay: true, mute: false),
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(14),
+        child: _controller != null
+            ? YoutubePlayer(
+                controller: _controller!,
+                showVideoProgressIndicator: true,
+                progressIndicatorColor: AppTheme.deltaLightBlue,
+              )
+            : AspectRatio(
+                aspectRatio: 16 / 9,
+                child: GestureDetector(
+                  onTap: _play,
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _netImage('https://img.youtube.com/vi/${widget.videoId}/hqdefault.jpg', fit: BoxFit.cover),
+                      Container(color: Colors.black.withOpacity(0.28)),
+                      const Center(child: Icon(Icons.play_circle_fill_rounded, color: Colors.white, size: 62)),
+                      Positioned(
+                        left: 10, bottom: 8,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Icon(Icons.smart_display_rounded, color: Colors.white, size: 16),
+                            SizedBox(width: 4),
+                            Text('Tap to play', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
       ),
     );
   }
